@@ -1,36 +1,56 @@
 @php
+    // Left desktop nav items
     $navLeft = [
-        ['route' => 'about', 'label' => 'Despre noi'],
         ['route' => 'how-it-works', 'label' => 'Cum funcționează'],
-        ['route' => 'impact', 'label' => 'Impact'],
         ['route' => 'involve', 'label' => 'Implică-te'],
-    ];
-
-    $navRight = [
         ['route' => 'resources.index', 'label' => 'Resurse'],
         ['route' => 'news.index', 'label' => 'Noutăți'],
+    ];
+
+    // Right desktop nav items
+    $navRight = [
+        ['route' => 'about', 'label' => 'Despre noi'],
+        ['route' => 'impact', 'label' => 'Impact'],
         ['route' => 'contact', 'label' => 'Contact'],
     ];
 
-    $allNav = array_merge($navLeft, $navRight);
+    // Merged items for mobile drawer
+    $allNav = array_merge($navRight, $navLeft);
 @endphp
 
-<header x-data="{ open: false }" class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-ink-100">
+<header x-data="{ open: false, openParticipa: false }" class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-ink-100">
     <div class="container-page flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] h-20 gap-4">
         
-        <!-- Left Navigation (Desktop) -->
-        <nav class="hidden lg:flex items-center justify-start gap-6 xl:gap-7">
-            @foreach ($navLeft as $item)
-                <a href="{{ route($item['route']) }}"
-                   class="text-sm font-medium {{ request()->routeIs($item['route']) ? 'text-brand-700' : 'text-ink-700 hover:text-brand-700' }} transition">
-                    {{ $item['label'] }}
-                </a>
-            @endforeach
-        </nav>
+        <!-- LEFT: "Participa" Dropdown & "Doneaza" Button (Desktop) -->
+        <div class="hidden lg:flex items-center justify-start gap-6">
+            <a href="{{ route('donate') }}" class="btn-primary shrink-0" data-testid="header-donate-cta">Donează</a>
 
-        <!-- Centered Logo (Desktop: Wordmark Left | SVG | Wordmark Right) -->
+            <div class="relative" @mouseenter="openParticipa = true" @mouseleave="openParticipa = false">
+                <button class="flex items-center gap-1 text-sm font-medium text-ink-700 hover:text-brand-700 transition py-2">
+                    Participă
+                    <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': openParticipa }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <!-- Participa Dropdown Menu -->
+                <div x-show="openParticipa" 
+                     x-cloak 
+                     x-transition 
+                     class="absolute left-0 top-full w-48 bg-white rounded-lg shadow-lg border border-ink-100 py-2 z-50">
+                    @foreach ($navLeft as $item)
+                        <a href="{{ route($item['route']) }}"
+                           class="block px-4 py-2 text-sm font-medium {{ request()->routeIs($item['route']) ? 'text-brand-700 bg-brand-50' : 'text-ink-700 hover:bg-ink-50 hover:text-brand-700' }} transition">
+                            {{ $item['label'] }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER: "ÎMPREUNĂ" [Logo] "ÎNVĂȚĂM" -->
         <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-3 justify-self-center shrink-0">
-            <span class="font-semibold text-ink-900 leading-none text-right hidden lg:inline">ÎMPREUNĂ</span>
+            <span class="font-semibold text-ink-900 leading-none text-right hidden lg:inline tracking-tight">ÎMPREUNĂ</span>
             
             <svg width="48" height="48" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" class="w-10 h-10 sm:w-12 sm:h-12 shrink-0" style="fill-rule:evenodd;clip-rule:evenodd;">
                 <g transform="matrix(0.539617,0,0,0.539617,-82.289954,-74.557722)">
@@ -46,7 +66,7 @@
                 </g>
             </svg>
 
-            <span class="font-semibold text-ink-900 leading-none text-left hidden lg:inline">ÎNVĂȚĂM</span>
+            <span class="font-semibold text-ink-900 leading-none text-left hidden lg:inline tracking-tight">ÎNVĂȚĂM</span>
 
             <!-- Mobile Wordmark Fallback -->
             <div class="leading-tight lg:hidden">
@@ -55,20 +75,17 @@
             </div>
         </a>
 
-        <!-- Right Navigation & CTA (Desktop) -->
-        <div class="hidden lg:flex items-center justify-end gap-6 xl:gap-7">
-            <nav class="flex items-center gap-6 xl:gap-7">
-                @foreach ($navRight as $item)
-                    <a href="{{ route($item['route']) }}"
-                       class="text-sm font-medium {{ request()->routeIs($item['route']) ? 'text-brand-700' : 'text-ink-700 hover:text-brand-700' }} transition">
-                        {{ $item['label'] }}
-                    </a>
-                @endforeach
-            </nav>
-            <a href="{{ route('donate') }}" class="btn-primary" data-testid="header-donate-cta">Donează</a>
-        </div>
+        <!-- RIGHT: "Despre noi" & "Impact" (Desktop) -->
+        <nav class="hidden lg:flex items-center justify-end gap-6 xl:gap-7">
+            @foreach ($navRight as $item)
+                <a href="{{ route($item['route']) }}"
+                   class="text-sm font-medium {{ request()->routeIs($item['route']) ? 'text-brand-700' : 'text-ink-700 hover:text-brand-700' }} transition">
+                    {{ $item['label'] }}
+                </a>
+            @endforeach
+        </nav>
 
-        <!-- Mobile Actions -->
+        <!-- Mobile Menu Trigger -->
         <div class="flex items-center gap-3 lg:hidden">
             <a href="{{ route('donate') }}" class="btn-primary hidden md:inline-flex" data-testid="header-donate-cta">Donează</a>
             <button @click="open = !open" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-ink-200 text-ink-700"
@@ -79,7 +96,7 @@
         </div>
     </div>
 
-    {{-- Mobile menu --}}
+    {{-- Mobile Menu Drawer --}}
     <div x-show="open" x-cloak x-transition class="lg:hidden border-t border-ink-100 bg-white">
         <div class="container-page py-4 flex flex-col gap-2">
             @foreach ($allNav as $item)
