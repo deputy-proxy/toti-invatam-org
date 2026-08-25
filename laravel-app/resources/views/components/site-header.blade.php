@@ -14,7 +14,7 @@
         
         <!-- LEFT: Logo & Stacked Brand Text ("ÎMPREUNĂ" above bold "ÎNVĂȚĂM") -->
         <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0 py-1 group">
-            <svg width="72" height="72" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" class="w-10 h-10 sm:w-11 sm:h-11 shrink-0" style="fill-rule:evenodd;clip-rule:evenodd;">
+            <svg width="128" height="128" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" class="w-10 h-10 sm:w-11 sm:h-11 shrink-0" style="fill-rule:evenodd;clip-rule:evenodd;">
                 <g transform="matrix(0.539617,0,0,0.539617,-82.289954,-74.557722)">
                     <path d="M502.79,477.06C497.31,475.11 491.73,473.44 486.08,472.06C486.17,469.78 484.59,470.42 483.3,469.46C483.47,468.4 486.66,468.94 487.47,468.21C488.72,468.78 490.04,469.08 491.43,469.1C495.23,470.29 498.84,471.88 502.26,473.89C503.51,473.7 504.37,474.19 504.84,475.33C504.07,475.8 503.39,476.38 502.79,477.06Z" style="fill:rgb(246,246,250);"/>
                     <path d="M447,605.87C443.14,607.82 439.33,609.87 435.58,612.02C433.37,611.74 432.82,610.67 433.92,608.83C435.98,606.7 442.02,604.63 445.01,603.99C446.27,603.65 446.54,605.02 447,605.87Z" style="fill:rgb(245,245,252);stroke:rgb(245,245,252);stroke-width:0.5px;"/>
@@ -29,7 +29,7 @@
             </svg>
 
             <div class="flex flex-col justify-center leading-none">
-                <span class="text-[10px] sm:text-xs font-medium text-ink-600 tracking-wider uppercase">ÎMPREUNĂ</span>
+                <span class="text-[10px] sm:text-xs font-medium text-ink-600 tracking-widest uppercase">ÎMPREUNĂ</span>
                 <span class="text-sm sm:text-base font-extrabold text-ink-900 tracking-wide uppercase">ÎNVĂȚĂM</span>
             </div>
         </a>
