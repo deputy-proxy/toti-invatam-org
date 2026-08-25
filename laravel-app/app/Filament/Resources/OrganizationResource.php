@@ -44,7 +44,8 @@ class OrganizationResource extends Resource
         return $table->columns([
             Tables\Columns\ImageColumn::make('logo')->label('')->height(40),
             Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
-            Tables\Columns\TextColumn::make('type')->badge()->formatStateUsing(fn ($s) => Organization::TYPES[$s] ?? $s),
+            Tables\Columns\TextColumn::make('type')->badge()
+            ->formatStateUsing(fn (string $state): string => Organization::TYPES[$state] ?? $state),
             Tables\Columns\TextColumn::make('city')->sortable(),
             Tables\Columns\IconColumn::make('active')->boolean(),
         ])->filters([
