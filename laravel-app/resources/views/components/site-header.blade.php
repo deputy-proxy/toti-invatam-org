@@ -29,8 +29,8 @@
             </svg>
 
             <div class="flex flex-col justify-center leading-none">
-                <span class="text-[10px] sm:text-xs font-medium text-ink-600 tracking-widest uppercase">ÎMPREUNĂ</span>
-                <span class="text-sm sm:text-base font-extrabold text-ink-900 tracking-wide uppercase">ÎNVĂȚĂM</span>
+                <span class="text-xs sm:text-xs font-medium text-ink-600 tracking-widest uppercase">ÎMPREUNĂ</span>
+                <span class="text-xs sm:text-base font-extrabold text-ink-900 tracking-wide uppercase">ÎNVĂȚĂM</span>
             </div>
         </a>
 
