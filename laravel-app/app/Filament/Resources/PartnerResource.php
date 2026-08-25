@@ -13,7 +13,7 @@ use Filament\Tables\Table;
 class PartnerResource extends Resource
 {
     protected static ?string $model = Partner::class;
-    protected static ?string $navigationIcon = 'heroicon-o-handshake';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationGroup = 'Ecosistem';
     protected static ?string $modelLabel = 'Partener';
     protected static ?string $pluralModelLabel = 'Parteneri';
