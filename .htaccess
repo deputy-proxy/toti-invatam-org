@@ -1,15 +1,16 @@
+DirectoryIndex laravel-app/public/index.php
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Prevent direct access to /laravel-app/public in the browser URL
+    # 1. Prevent direct access to /laravel-app/public in the browser URL bar
     RewriteCond %{THE_REQUEST} /laravel-app/public/([^\s?]*) [NC]
     RewriteRule ^ %1 [L,R=301]
 
-    # Serve static assets directly if they exist in public_html/
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
+    # 2. Serve actual static assets (images, css, js) directly if they exist
+    RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Rewrite all other requests internally to laravel-app/public/index.php
-    RewriteRule ^(.*)$ laravel-app/public/$1 [L]
+    # 3. Route everything else to laravel-app/public/index.php
+    RewriteRule ^(.*)$ laravel-app/public/index.php [L]
 </IfModule>
