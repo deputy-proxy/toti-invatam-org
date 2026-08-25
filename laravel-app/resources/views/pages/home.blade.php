@@ -56,7 +56,7 @@
 
                 <div class="relative aspect-[5/6] max-w-[520px] mx-auto rounded-[36px] overflow-hidden shadow-cardLg bg-ink-100">
                     {{-- Placeholder photo (editable via admin projects/hero image) --}}
-                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&auto=format&fit=crop&q=80"
+                    <img src="https://images.pexels.com/photos/28862352/pexels-photo-28862352.jpeg"
                          alt="Educator lucrând cu elevi" class="w-full h-full object-cover">
                 </div>
 
