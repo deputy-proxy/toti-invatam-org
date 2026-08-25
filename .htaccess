@@ -1,7 +1,9 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Redirect requests directly to the subfolder's public directory
+    # Prevent looping by stopping if we are already inside /laravel-app/public
     RewriteCond %{REQUEST_URI} !^/laravel-app/public/
-    RewriteRule ^(.*)$ /laravel-app/public/$1 [L]
+
+    # Direct all requests to the subfolder's public index.php
+    RewriteRule ^(.*)$ laravel-app/public/$1 [L]
 </IfModule>
