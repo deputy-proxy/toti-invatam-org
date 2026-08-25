@@ -1,58 +1,47 @@
 @php
     // Left desktop nav items
     $navLeft = [
+        ['route' => 'about', 'label' => 'Despre noi'],
+        ['route' => 'impact', 'label' => 'Impact'],
+    ];
+
+    // Right dropdown items for "Participă"
+    $participaItems = [
         ['route' => 'how-it-works', 'label' => 'Cum funcționează'],
         ['route' => 'involve', 'label' => 'Implică-te'],
         ['route' => 'resources.index', 'label' => 'Resurse'],
         ['route' => 'news.index', 'label' => 'Noutăți'],
     ];
 
-    // Right desktop nav items
-    $navRight = [
-        ['route' => 'about', 'label' => 'Despre noi'],
-        ['route' => 'impact', 'label' => 'Impact'],
-        ['route' => 'contact', 'label' => 'Contact'],
-    ];
-
     // Merged items for mobile drawer
-    $allNav = array_merge($navRight, $navLeft);
+    $allNav = array_merge(
+        $navLeft,
+        [['route' => 'participa', 'label' => 'Participă']],
+        $participaItems,
+        [['route' => 'contact', 'label' => 'Contact']]
+    );
 @endphp
 
-<header x-data="{ open: false, openParticipa: false }" class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-ink-100">
+<header x-data="{ open: false, openParticipa: false }" class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-ink-100">
     <div class="container-page flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] h-20 gap-4">
         
-        <!-- LEFT: "Participa" Dropdown & "Doneaza" Button (Desktop) -->
-        <div class="hidden lg:flex items-center justify-start gap-6">
-            <a href="{{ route('donate') }}" class="btn-primary shrink-0" data-testid="header-donate-cta">Donează</a>
+        <!-- LEFT: "Despre noi" & "Impact" (Desktop) -->
+        <nav class="hidden lg:flex items-center justify-start gap-6 xl:gap-8">
+            @foreach ($navLeft as $item)
+                <a href="{{ route($item['route']) }}"
+                   class="text-sm font-medium {{ request()->routeIs($item['route']) ? 'text-brand-700 font-semibold' : 'text-ink-700 hover:text-brand-700' }} transition">
+                    {{ $item['label'] }}
+                </a>
+            @endforeach
+        </nav>
 
-            <div class="relative" @mouseenter="openParticipa = true" @mouseleave="openParticipa = false">
-                <button class="flex items-center gap-1 text-sm font-medium text-ink-700 hover:text-brand-700 transition py-2">
-                    Participă
-                    <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': openParticipa }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-
-                <!-- Participa Dropdown Menu -->
-                <div x-show="openParticipa" 
-                     x-cloak 
-                     x-transition 
-                     class="absolute left-0 top-full w-48 bg-white rounded-lg shadow-lg border border-ink-100 py-2 z-50">
-                    @foreach ($navLeft as $item)
-                        <a href="{{ route($item['route']) }}"
-                           class="block px-4 py-2 text-sm font-medium {{ request()->routeIs($item['route']) ? 'text-brand-700 bg-brand-50' : 'text-ink-700 hover:bg-ink-50 hover:text-brand-700' }} transition">
-                            {{ $item['label'] }}
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
-        <!-- CENTER: "ÎMPREUNĂ" [Logo] "ÎNVĂȚĂM" -->
-        <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-3 justify-self-center shrink-0">
-            <span class="font-semibold text-ink-900 leading-none text-right hidden lg:inline tracking-tight">ÎMPREUNĂ</span>
+        <!-- CENTER: "ÎMPREUNĂ" [Logo] "ÎNVĂȚĂM" (Always visible) -->
+        <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-3 justify-self-center shrink-0 py-1">
+            <span class="font-bold text-ink-900 leading-none text-xs sm:text-sm md:text-base xl:text-lg tracking-wider uppercase">
+                ÎMPREUNĂ
+            </span>
             
-            <svg width="48" height="48" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" class="w-10 h-10 sm:w-12 sm:h-12 shrink-0" style="fill-rule:evenodd;clip-rule:evenodd;">
+            <svg width="48" height="48" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 shrink-0" style="fill-rule:evenodd;clip-rule:evenodd;">
                 <g transform="matrix(0.539617,0,0,0.539617,-82.289954,-74.557722)">
                     <path d="M502.79,477.06C497.31,475.11 491.73,473.44 486.08,472.06C486.17,469.78 484.59,470.42 483.3,469.46C483.47,468.4 486.66,468.94 487.47,468.21C488.72,468.78 490.04,469.08 491.43,469.1C495.23,470.29 498.84,471.88 502.26,473.89C503.51,473.7 504.37,474.19 504.84,475.33C504.07,475.8 503.39,476.38 502.79,477.06Z" style="fill:rgb(246,246,250);"/>
                     <path d="M447,605.87C443.14,607.82 439.33,609.87 435.58,612.02C433.37,611.74 432.82,610.67 433.92,608.83C435.98,606.7 442.02,604.63 445.01,603.99C446.27,603.65 446.54,605.02 447,605.87Z" style="fill:rgb(245,245,252);stroke:rgb(245,245,252);stroke-width:0.5px;"/>
@@ -66,28 +55,41 @@
                 </g>
             </svg>
 
-            <span class="font-semibold text-ink-900 leading-none text-left hidden lg:inline tracking-tight">ÎNVĂȚĂM</span>
-
-            <!-- Mobile Wordmark Fallback -->
-            <div class="leading-tight lg:hidden">
-                <div class="font-semibold text-ink-900">ÎMPREUNĂ ÎNVĂȚĂM</div>
-                <div class="text-xs uppercase tracking-widest text-brand-700">Fundație</div>
-            </div>
+            <span class="font-bold text-ink-900 leading-none text-xs sm:text-sm md:text-base xl:text-lg tracking-wider uppercase">
+                ÎNVĂȚĂM
+            </span>
         </a>
 
-        <!-- RIGHT: "Despre noi" & "Impact" (Desktop) -->
-        <nav class="hidden lg:flex items-center justify-end gap-6 xl:gap-7">
-            @foreach ($navRight as $item)
-                <a href="{{ route($item['route']) }}"
-                   class="text-sm font-medium {{ request()->routeIs($item['route']) ? 'text-brand-700' : 'text-ink-700 hover:text-brand-700' }} transition">
-                    {{ $item['label'] }}
-                </a>
-            @endforeach
-        </nav>
+        <!-- RIGHT: "Participa" Dropdown & "Doneaza" Button (Desktop) -->
+        <div class="hidden lg:flex items-center justify-end gap-6">
+            <div class="relative" @mouseenter="openParticipa = true" @mouseleave="openParticipa = false">
+                <button class="flex items-center gap-1 text-sm font-medium text-ink-700 hover:text-brand-700 transition py-2">
+                    Participă
+                    <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': openParticipa }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <!-- Participa Dropdown Menu -->
+                <div x-show="openParticipa" 
+                     x-cloak 
+                     x-transition 
+                     class="absolute right-0 top-full w-48 bg-white rounded-lg shadow-lg border border-ink-100 py-2 z-50">
+                    @foreach ($participaItems as $item)
+                        <a href="{{ route($item['route']) }}"
+                           class="block px-4 py-2 text-sm font-medium {{ request()->routeIs($item['route']) ? 'text-brand-700 bg-brand-50' : 'text-ink-700 hover:bg-ink-50 hover:text-brand-700' }} transition">
+                            {{ $item['label'] }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+
+            <a href="{{ route('donate') }}" class="btn-primary shrink-0" data-testid="header-donate-cta">Donează</a>
+        </div>
 
         <!-- Mobile Menu Trigger -->
         <div class="flex items-center gap-3 lg:hidden">
-            <a href="{{ route('donate') }}" class="btn-primary hidden md:inline-flex" data-testid="header-donate-cta">Donează</a>
+            <a href="{{ route('donate') }}" class="btn-primary hidden md:inline-flex text-xs px-3 py-2" data-testid="header-donate-cta">Donează</a>
             <button @click="open = !open" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-ink-200 text-ink-700"
                     aria-label="Toggle menu">
                 <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -100,9 +102,11 @@
     <div x-show="open" x-cloak x-transition class="lg:hidden border-t border-ink-100 bg-white">
         <div class="container-page py-4 flex flex-col gap-2">
             @foreach ($allNav as $item)
-                <a href="{{ route($item['route']) }}" class="py-2 text-ink-800 font-medium">{{ $item['label'] }}</a>
+                <a href="{{ route($item['route']) }}" class="py-2 text-ink-800 font-medium hover:text-brand-700 transition">
+                    {{ $item['label'] }}
+                </a>
             @endforeach
-            <a href="{{ route('donate') }}" class="btn-primary mt-3" data-testid="mobile-donate-cta">Donează</a>
+            <a href="{{ route('donate') }}" class="btn-primary mt-3 text-center" data-testid="mobile-donate-cta">Donează</a>
         </div>
     </div>
 </header>
