@@ -1,11 +1,15 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Redirect external requests containing /laravel-app/public to the clean URL
+    # Prevent direct access to /laravel-app/public in the browser URL
     RewriteCond %{THE_REQUEST} /laravel-app/public/([^\s?]*) [NC]
     RewriteRule ^ %1 [L,R=301]
 
-    # Internally rewrite root requests to the public folder
-    RewriteCond %{REQUEST_URI} !^/laravel-app/public/
+    # Serve static assets directly if they exist in public_html/
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Rewrite all other requests internally to laravel-app/public/index.php
     RewriteRule ^(.*)$ laravel-app/public/$1 [L]
 </IfModule>
