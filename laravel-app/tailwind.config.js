@@ -61,6 +61,20 @@ export default {
             maxWidth: {
                 '8xl': '88rem',
             },
+            keyframes: {
+                float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-10px)' },
+                },
+                'float-delayed': {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(10px)' },
+                }
+            },
+            animation: {
+                float: 'float 4s ease-in-out infinite',
+                'float-delayed': 'float-delayed 5s ease-in-out infinite 1s',
+            }
         },
     },
     plugins: [forms, typography],
