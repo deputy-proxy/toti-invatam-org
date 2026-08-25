@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect requests directly to the subfolder's public directory
+    RewriteCond %{REQUEST_URI} !^/laravel-app/public/
+    RewriteRule ^(.*)$ /laravel-app/public/$1 [L]
+</IfModule>
