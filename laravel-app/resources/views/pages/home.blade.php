@@ -56,7 +56,7 @@
 
                 {{-- Main Image Card --}}
                 <div class="relative aspect-[5/6] max-w-[520px] mx-auto rounded-[36px] overflow-hidden shadow-cardLg bg-ink-100">
-                    <img src="https://images.pexels.com/photos/28862352/pexels-photo-28862352.jpeg"
+                    <img src="https://images.pexels.com/photos/1648473/pexels-photo-1648473.jpeg"
                         alt="Educator lucrând cu elevi" class="w-full h-full object-cover">
                 </div>
 
