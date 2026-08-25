@@ -27,8 +27,10 @@ class UserResource extends Resource
             Forms\Components\Select::make('role')->options([
                 'admin'=>'Administrator','editor'=>'Editor','coordinator'=>'Coordonator',
             ])->required(),
-            Forms\Components\TextInput::make('password')->password()->dehydrateStateUsing(fn($s)=>filled($s) ? Hash::make($s) : null)
-                ->dehydrated(fn($s)=>filled($s))->required(fn(string $context)=>$context==='create'),
+            Forms\Components\TextInput::make('password')->password()
+            ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+            ->dehydrated(fn (?string $state): bool => filled($state))
+            ->required(fn (string $operation): bool => $operation === 'create'),
             Forms\Components\Toggle::make('active')->default(true),
         ])->columns(2);
     }
