@@ -40,7 +40,8 @@ class BeneficiaryResource extends Resource
     {
         return $table->columns([
             Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
-            Tables\Columns\TextColumn::make('type')->badge()->formatStateUsing(fn($s)=>Beneficiary::TYPES[$s] ?? $s),
+            Tables\Columns\TextColumn::make('type')->badge()
+            ->formatStateUsing(fn (string $state): string => Beneficiary::TYPES[$state] ?? $state),
             Tables\Columns\TextColumn::make('city'),
             Tables\Columns\IconColumn::make('active')->boolean(),
         ])->filters([
