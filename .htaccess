@@ -2,10 +2,9 @@
     RewriteEngine On
     RewriteBase /
 
-    # Disable directory slash redirect by mod_dir to prevent URL exposure
-    DirectorySlash Off
-
-    # Direct everything into laravel-app/public silently
+    # Check if request is not already pointing to public/
     RewriteCond %{REQUEST_URI} !^/laravel-app/public/
-    RewriteRule ^(.*)$ laravel-app/public/$1 [L]
+
+    # Direct all incoming traffic directly to index.php inside laravel-app/public
+    RewriteRule ^(.*)$ laravel-app/public/index.php/$1 [L]
 </IfModule>
