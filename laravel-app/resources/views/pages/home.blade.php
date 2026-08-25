@@ -41,8 +41,8 @@
 
             {{-- Right: photograph + blue blob + orbiting icons --}}
             <div class="relative">
+                {{-- Organic blue blob --}}
                 <div class="absolute inset-0 -z-10">
-                    {{-- Organic blue blob --}}
                     <svg viewBox="0 0 600 600" class="w-full h-full" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
                         <defs>
                             <linearGradient id="blob" x1="0" y1="0" x2="1" y2="1">
@@ -50,21 +50,73 @@
                             </linearGradient>
                         </defs>
                         <path fill="url(#blob)" transform="translate(300 300)"
-                              d="M115,-160C155,-130,197,-99,207,-58C217,-17,196,34,168,80C140,127,105,168,60,187C15,205,-40,201,-88,178C-136,155,-176,113,-193,63C-210,13,-203,-46,-176,-92C-149,-138,-101,-171,-53,-181C-4,-191,45,-179,90,-176C104,-175,90,-190,115,-160Z" opacity="0.9"/>
+                            d="M115,-160C155,-130,197,-99,207,-58C217,-17,196,34,168,80C140,127,105,168,60,187C15,205,-40,201,-88,178C-136,155,-176,113,-193,63C-210,13,-203,-46,-176,-92C-149,-138,-101,-171,-53,-181C-4,-191,45,-179,90,-176C104,-175,90,-190,115,-160Z" opacity="0.9"/>
                     </svg>
                 </div>
 
+                {{-- Main Image Card --}}
                 <div class="relative aspect-[5/6] max-w-[520px] mx-auto rounded-[36px] overflow-hidden shadow-cardLg bg-ink-100">
-                    {{-- Placeholder photo (editable via admin projects/hero image) --}}
                     <img src="https://images.pexels.com/photos/28862352/pexels-photo-28862352.jpeg"
-                         alt="Educator lucrând cu elevi" class="w-full h-full object-cover">
+                        alt="Educator lucrând cu elevi" class="w-full h-full object-cover">
                 </div>
 
-                {{-- Orbiting icon badges --}}
-                <div class="hidden md:block absolute -top-4 right-4"><div class="w-14 h-14 rounded-full bg-brand-600 text-white grid place-content-center shadow-cardLg"><x-heroicon name="academic-cap" class="w-6 h-6" /></div></div>
-                <div class="hidden md:block absolute top-1/3 -left-4"><div class="w-14 h-14 rounded-full bg-white text-accent-yellow grid place-content-center shadow-cardLg"><x-heroicon name="heart" class="w-6 h-6" /></div></div>
-                <div class="hidden md:block absolute bottom-8 -left-6"><div class="w-14 h-14 rounded-full bg-white text-accent-green grid place-content-center shadow-cardLg"><x-heroicon name="user-group" class="w-6 h-6" /></div></div>
-                <div class="hidden md:block absolute bottom-1/3 -right-4"><div class="w-14 h-14 rounded-full bg-white text-accent-purple grid place-content-center shadow-cardLg"><x-heroicon name="book-open" class="w-6 h-6" /></div></div>
+                {{-- Orbiting / Floating Icon Badges --}}
+                
+                {{-- Badge 1: Academic Cap (Top Right) --}}
+                <div class="hidden md:block absolute -top-4 right-4 animate-float">
+                    <div class="relative group">
+                        <div class="w-14 h-14 rounded-full bg-brand-600 text-white grid place-content-center shadow-cardLg transform transition-transform duration-300 group-hover:scale-110 cursor-pointer">
+                            <x-heroicon name="academic-cap" class="w-6 h-6" />
+                        </div>
+                        {{-- Tooltip --}}
+                        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:flex flex-col items-center pointer-events-none transition-all duration-200 opacity-0 group-hover:opacity-100">
+                            <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-gray-900 rounded-md shadow-lg">Educație</span>
+                            <div class="w-2 h-2 -mt-1 rotate-45 bg-gray-900"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Badge 2: Heart (Middle Left) --}}
+                <div class="hidden md:block absolute top-1/3 -left-4 animate-float-delayed">
+                    <div class="relative group">
+                        <div class="w-14 h-14 rounded-full bg-white text-accent-yellow grid place-content-center shadow-cardLg transform transition-transform duration-300 group-hover:scale-110 cursor-pointer">
+                            <x-heroicon name="heart" class="w-6 h-6" />
+                        </div>
+                        {{-- Tooltip --}}
+                        <div class="absolute right-full top-1/2 -translate-y-1/2 mr-2 hidden group-hover:flex items-center pointer-events-none transition-all duration-200 opacity-0 group-hover:opacity-100">
+                            <span class="relative z-10 p-2 text-xs leading-none text-gray-900 whitespace-nowrap bg-white rounded-md shadow-lg border border-gray-100">Pasiune</span>
+                            <div class="w-2 h-2 -ml-1 rotate-45 bg-white border-l border-b border-gray-100"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Badge 3: User Group (Bottom Left) --}}
+                <div class="hidden md:block absolute bottom-8 -left-6 animate-float">
+                    <div class="relative group">
+                        <div class="w-14 h-14 rounded-full bg-white text-accent-green grid place-content-center shadow-cardLg transform transition-transform duration-300 group-hover:scale-110 cursor-pointer">
+                            <x-heroicon name="user-group" class="w-6 h-6" />
+                        </div>
+                        {{-- Tooltip --}}
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 hidden group-hover:flex flex-col items-center pointer-events-none transition-all duration-200 opacity-0 group-hover:opacity-100">
+                            <div class="w-2 h-2 -mb-1 rotate-45 bg-white border-t border-l border-gray-100"></div>
+                            <span class="relative z-10 p-2 text-xs leading-none text-gray-900 whitespace-nowrap bg-white rounded-md shadow-lg border border-gray-100">Comunitate</span>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Badge 4: Book Open (Middle Right) --}}
+                <div class="hidden md:block absolute bottom-1/3 -right-4 animate-float-delayed">
+                    <div class="relative group">
+                        <div class="w-14 h-14 rounded-full bg-white text-accent-purple grid place-content-center shadow-cardLg transform transition-transform duration-300 group-hover:scale-110 cursor-pointer">
+                            <x-heroicon name="book-open" class="w-6 h-6" />
+                        </div>
+                        {{-- Tooltip --}}
+                        <div class="absolute left-full top-1/2 -translate-y-1/2 ml-2 hidden group-hover:flex items-center pointer-events-none transition-all duration-200 opacity-0 group-hover:opacity-100">
+                            <div class="w-2 h-2 -mr-1 rotate-45 bg-white border-b border-l border-gray-100"></div>
+                            <span class="relative z-10 p-2 text-xs leading-none text-gray-900 whitespace-nowrap bg-white rounded-md shadow-lg border border-gray-100">Învățare</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
