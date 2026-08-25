@@ -16,7 +16,7 @@
     // Merged items for mobile drawer
     $allNav = array_merge(
         $navLeft,
-        [['route' => 'participa', 'label' => 'Participă']],
+        [['route' => 'donate', 'label' => 'Participă']],
         $participaItems,
         [['route' => 'contact', 'label' => 'Contact']]
     );
