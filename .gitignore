@@ -3,10 +3,12 @@
 # IDE and editors
 .idea/
 .vscode/
-
+.env
 # Dependencies
 node_modules/
 /node_modules
+/vendor
+vendor/
 /.pnp
 .pnp.js
 .yarn/install-state.gz
