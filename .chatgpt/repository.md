@@ -1,33 +1,27 @@
 # Repository-specific development configuration
 
-Last verified: 2026-11-18. This repository did not contain `.chatgpt/osingle.md` or a `.github/workflows/` directory at the time of inspection. Re-check both before relying on this snapshot.
+Last verified: 2026-11-19. Exact resolved versions are recorded in the cross-repository matrix at [Cr8or](https://github.com/deputy-proxy/cr8or/blob/main/.chatgpt/repository-versions.md). Re-check manifests, lockfiles, and workflows before each implementation.
 
-## Runtime and framework
-- PHP requirement: `^8.2`.
-- Laravel: 11.x.
-- Filament: 3.x.
-- Livewire: 3.x.
-- PHPUnit: 11.x.
-- Laravel Pint: 1.x.
-- Frontend: Vite 5, Tailwind CSS 3, Alpine.js.
-- Node.js version and package-manager version are not specified by the inspected repository files. Inspect the available runtime and lockfiles before installing dependencies.
-- No `.github/workflows/tests.yml` or `.github/workflows/` directory was found during this inspection.
+## Runtime and resolved framework versions
+- PHP constraint: `^8.2`.
+- Laravel 11.56.1; Filament 3.3.55; Livewire 3.8.8.
+- PHPUnit 11.5.56; Pint 1.32.1.
+- Pest and Larastan are not currently installed.
+- No Node version is defined in the inspected GitHub Actions workflows.
+- npm lockfile resolves Vite 5.4.21, Tailwind CSS 3.4.19, Laravel Vite plugin 1.3.0, Alpine.js 3.17.2, and Axios 1.20.0.
 
-## Current validation status
-- `composer.json` does not define project-level `test`, `lint`, or static-analysis Composer scripts.
+## Current CI validation
+- No `.github/workflows/` directory or tests workflow was found during inspection.
+- Composer manifest does not define project-level test, lint, or static-analysis scripts.
 - `package.json` defines `npm run build` and `npm run dev`.
-- No repository CI test/build workflow was found at the inspected path. Do not claim automated tests, static analysis, migrations, frontend tests, or security audits are enforced by GitHub Actions until a workflow is added and verified.
-- Inspect the current repository for test files and lockfiles before choosing local commands.
+- Do not claim automated tests, static analysis, migrations, frontend tests, or dependency audits are enforced by GitHub Actions until a workflow is added and verified.
 
-## Recommended local checks pending CI standardization
-- Install PHP dependencies using the committed Composer lockfile, if present.
+## Local validation
+- Install PHP dependencies using the committed Composer lockfile.
 - Run the existing PHPUnit suite using the installed PHPUnit binary if tests are present.
-- Run `npm ci` only if a committed `package-lock.json` exists; otherwise use the package manager indicated by the repository's actual lockfile.
-- Run `npm run build`.
-- Run Pint if it is installed and configured.
-- Do not invent missing scripts or claim checks are CI gates.
+- Use `npm ci` when the committed `package-lock.json` is present, then `npm run build`.
+- Run Pint if installed and configured. Do not invent missing scripts.
 
 ## Upgrade and standardization notes
-- This repository is on an older framework generation than the Laravel 13 / Filament 5 / Livewire 4 baseline used by the newer repositories.
-- Treat framework upgrades as explicit, separately scoped work. Do not upgrade major framework versions as incidental cleanup.
-- Add a CI workflow and explicit quality gates as a separate engineering task after inspecting the full repository and its deployment constraints.
+- This repository remains on Laravel 11 / Filament 3 / Livewire 3, unlike the Laravel 13 / Filament 5 / Livewire 4 baseline used by the newer repositories.
+- Treat framework upgrades and CI introduction as explicitly scoped work, after inspecting deployment constraints and existing tests.
