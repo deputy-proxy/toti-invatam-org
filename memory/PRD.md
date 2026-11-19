@@ -1,6 +1,6 @@
 # Împreună Învățăm — Foundation Platform
 
-**Type:** Laravel 11 web app (generated for external deployment; not runnable on Emergent hosting).
+**Type:** Laravel 11 web application intended for external deployment.
 
 **Stack:** Laravel 11 · PHP 8.2 · MySQL/SQLite · Blade · Livewire 3 · Alpine.js · Tailwind 3 · Filament v3
 
