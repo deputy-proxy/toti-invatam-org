@@ -2,12 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EventResource\Pages;
+use App\Filament\Resources\EventResource\Pages\CreateEvent;
+use App\Filament\Resources\EventResource\Pages\EditEvent;
+use App\Filament\Resources\EventResource\Pages\ListEvents;
 use App\Models\Event;
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -15,51 +24,51 @@ class EventResource extends Resource
 {
     protected static ?string $model = Event::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-calendar';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-calendar';
 
-    protected static ?string $navigationGroup = 'Conținut';
+    protected static string|\UnitEnum|null $navigationGroup = 'Conținut';
 
     protected static ?string $modelLabel = 'Eveniment';
 
     protected static ?string $pluralModelLabel = 'Evenimente';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
-            Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
+        return $schema->components([
+            TextInput::make('title')->required()->live(onBlur: true)
                 ->afterStateUpdated(fn ($s, $set) => $set('slug', Str::slug($s))),
-            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
-            Forms\Components\FileUpload::make('featured_image')->image()->directory('events'),
-            Forms\Components\Textarea::make('description')->rows(3)->columnSpanFull(),
-            Forms\Components\TextInput::make('location'),
-            Forms\Components\Toggle::make('online'),
-            Forms\Components\TextInput::make('event_url')->url(),
-            Forms\Components\DateTimePicker::make('start_at')->required(),
-            Forms\Components\DateTimePicker::make('end_at'),
-            Forms\Components\TextInput::make('capacity')->numeric(),
-            Forms\Components\Toggle::make('registration_required'),
-            Forms\Components\Toggle::make('active')->default(true),
+            TextInput::make('slug')->required()->unique(ignoreRecord: true),
+            FileUpload::make('featured_image')->image()->directory('events'),
+            Textarea::make('description')->rows(3)->columnSpanFull(),
+            TextInput::make('location'),
+            Toggle::make('online'),
+            TextInput::make('event_url')->url(),
+            DateTimePicker::make('start_at')->required(),
+            DateTimePicker::make('end_at'),
+            TextInput::make('capacity')->numeric(),
+            Toggle::make('registration_required'),
+            Toggle::make('active')->default(true),
         ])->columns(2);
     }
 
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\TextColumn::make('title')->searchable()->sortable()->limit(50),
-            Tables\Columns\TextColumn::make('start_at')->dateTime()->sortable(),
-            Tables\Columns\TextColumn::make('location'),
-            Tables\Columns\IconColumn::make('online')->boolean(),
-            Tables\Columns\IconColumn::make('active')->boolean(),
+            TextColumn::make('title')->searchable()->sortable()->limit(50),
+            TextColumn::make('start_at')->dateTime()->sortable(),
+            TextColumn::make('location'),
+            IconColumn::make('online')->boolean(),
+            IconColumn::make('active')->boolean(),
         ])->defaultSort('start_at')
-            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+            ->recordActions([EditAction::make(), DeleteAction::make()]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEvents::route('/'),
-            'create' => Pages\CreateEvent::route('/create'),
-            'edit' => Pages\EditEvent::route('/{record}/edit'),
+            'index' => ListEvents::route('/'),
+            'create' => CreateEvent::route('/create'),
+            'edit' => EditEvent::route('/{record}/edit'),
         ];
     }
 }

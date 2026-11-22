@@ -2,67 +2,74 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DonationResource\Pages;
+use App\Filament\Resources\DonationResource\Pages\CreateDonation;
+use App\Filament\Resources\DonationResource\Pages\EditDonation;
+use App\Filament\Resources\DonationResource\Pages\ListDonations;
 use App\Models\Donation;
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class DonationResource extends Resource
 {
     protected static ?string $model = Donation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-banknotes';
 
-    protected static ?string $navigationGroup = 'Cereri & Submisii';
+    protected static string|\UnitEnum|null $navigationGroup = 'Cereri & Submisii';
 
     protected static ?string $modelLabel = 'Donație';
 
     protected static ?string $pluralModelLabel = 'Donații';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
-            Forms\Components\TextInput::make('donor_name')->required(),
-            Forms\Components\TextInput::make('donor_email')->email()->required(),
-            Forms\Components\TextInput::make('amount')->numeric()->required(),
-            Forms\Components\TextInput::make('currency')->default('RON'),
-            Forms\Components\Select::make('type')->options(['individual' => 'Individual', 'company' => 'Companie'])->default('individual'),
-            Forms\Components\Toggle::make('recurring'),
-            Forms\Components\Select::make('project_id')->relationship('project', 'title')->searchable(),
-            Forms\Components\TextInput::make('payment_provider'),
-            Forms\Components\TextInput::make('payment_reference'),
-            Forms\Components\Select::make('status')->options([
+        return $schema->components([
+            TextInput::make('donor_name')->required(),
+            TextInput::make('donor_email')->email()->required(),
+            TextInput::make('amount')->numeric()->required(),
+            TextInput::make('currency')->default('RON'),
+            Select::make('type')->options(['individual' => 'Individual', 'company' => 'Companie'])->default('individual'),
+            Toggle::make('recurring'),
+            Select::make('project_id')->relationship('project', 'title')->searchable(),
+            TextInput::make('payment_provider'),
+            TextInput::make('payment_reference'),
+            Select::make('status')->options([
                 'pending' => 'În așteptare', 'completed' => 'Completată', 'failed' => 'Eșuată', 'refunded' => 'Rambursată',
             ])->default('pending'),
-            Forms\Components\DateTimePicker::make('donated_at'),
+            DateTimePicker::make('donated_at'),
         ])->columns(2);
     }
 
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\TextColumn::make('donor_name')->searchable(),
-            Tables\Columns\TextColumn::make('amount')->money('RON')->sortable(),
-            Tables\Columns\TextColumn::make('type')->badge(),
-            Tables\Columns\IconColumn::make('recurring')->boolean(),
-            Tables\Columns\TextColumn::make('project.title')->limit(30),
-            Tables\Columns\TextColumn::make('status')->badge()->color(fn ($s) => match ($s) {
+            TextColumn::make('donor_name')->searchable(),
+            TextColumn::make('amount')->money('RON')->sortable(),
+            TextColumn::make('type')->badge(),
+            IconColumn::make('recurring')->boolean(),
+            TextColumn::make('project.title')->limit(30),
+            TextColumn::make('status')->badge()->color(fn ($s) => match ($s) {
                 'completed' => 'success','pending' => 'warning','failed' => 'danger','refunded' => 'gray',default => 'gray'
             }),
-            Tables\Columns\TextColumn::make('donated_at')->dateTime()->sortable(),
+            TextColumn::make('donated_at')->dateTime()->sortable(),
         ])->defaultSort('donated_at', 'desc')
-            ->actions([Tables\Actions\EditAction::make()]);
+            ->recordActions([EditAction::make()]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDonations::route('/'),
-            'create' => Pages\CreateDonation::route('/create'),
-            'edit' => Pages\EditDonation::route('/{record}/edit'),
+            'index' => ListDonations::route('/'),
+            'create' => CreateDonation::route('/create'),
+            'edit' => EditDonation::route('/{record}/edit'),
         ];
     }
 }

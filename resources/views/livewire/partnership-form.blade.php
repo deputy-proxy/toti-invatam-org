@@ -6,7 +6,7 @@
             <p class="mt-2 text-ink-500">Am primit solicitarea ta. Un membru al echipei te va contacta în curând.</p>
         </div>
     @else
-        <form wire:submit.prevent="submit" class="grid grid-cols-1 md:grid-cols-2 gap-4" data-testid="partnership-form">
+        <form wire:submit="submit" class="grid grid-cols-1 md:grid-cols-2 gap-4" data-testid="partnership-form">
             <x-form-field label="Numele organizației" name="organisation_name" required wire:model.lazy="organisation_name" />
             <x-form-field label="Persoană de contact" name="contact_name" required wire:model.lazy="contact_name" />
             <x-form-field label="Email" name="email" type="email" required wire:model.lazy="email" />

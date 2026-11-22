@@ -1,7 +1,7 @@
 {
     "name": "impreunainvatam/foundation-platform",
     "type": "project",
-    "description": "\u00cempreun\u0103 \u00cenv\u0103\u021b\u0103m Foundation Platform - Laravel 11 + Filament CMS + Livewire.",
+    "description": "Împreună Învățăm Foundation Platform - Laravel 13 + Filament 5 + Livewire 4.",
     "keywords": [
         "laravel",
         "filament",
@@ -11,24 +11,24 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
-        "filament/filament": "^3.2",
+        "php": "^8.4",
+        "filament/filament": "^5.11.4",
         "guzzlehttp/guzzle": "^7.2",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "^13.7",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.10.1",
-        "livewire/livewire": "^3.5",
+        "laravel/tinker": "^3.0",
+        "livewire/livewire": "^4.4.8",
         "spatie/laravel-sitemap": "^7.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "larastan/larastan": "^3.15",
-        "laravel/pint": "^1.13",
+        "larastan/larastan": "3.15.*",
+        "laravel/pint": "1.32.3",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
         "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^11.0.1"
+        "phpunit/phpunit": "13.3.4"
     },
     "autoload": {
         "psr-4": {
@@ -77,6 +77,9 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "platform": {
+            "php": "8.4.1"
         }
     },
     "minimum-stability": "stable",

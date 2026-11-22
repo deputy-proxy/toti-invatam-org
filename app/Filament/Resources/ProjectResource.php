@@ -2,12 +2,29 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProjectResource\Pages;
+use App\Filament\Resources\ProjectResource\Pages\CreateProject;
+use App\Filament\Resources\ProjectResource\Pages\EditProject;
+use App\Filament\Resources\ProjectResource\Pages\ListProjects;
 use App\Models\Project;
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -15,9 +32,9 @@ class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Conținut';
+    protected static string|\UnitEnum|null $navigationGroup = 'Conținut';
 
     protected static ?string $modelLabel = 'Proiect';
 
@@ -25,47 +42,47 @@ class ProjectResource extends Resource
 
     protected static ?int $navigationSort = 10;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
-            Forms\Components\Section::make('Informații principale')->schema([
-                Forms\Components\TextInput::make('title')->label('Titlu')->required()->maxLength(255)->live(onBlur: true)
+        return $schema->components([
+            Section::make('Informații principale')->schema([
+                TextInput::make('title')->label('Titlu')->required()->maxLength(255)->live(onBlur: true)
                     ->afterStateUpdated(fn ($state, $set) => $set('slug', Str::slug($state))),
-                Forms\Components\TextInput::make('slug')->required()->maxLength(255)->unique(ignoreRecord: true),
-                Forms\Components\Select::make('project_category_id')->label('Categorie')
+                TextInput::make('slug')->required()->maxLength(255)->unique(ignoreRecord: true),
+                Select::make('project_category_id')->label('Categorie')
                     ->relationship('category', 'name')->searchable()->preload(),
-                Forms\Components\Textarea::make('short_description')->label('Descriere scurtă')->rows(2)->maxLength(500),
-                Forms\Components\FileUpload::make('featured_image')->image()->directory('projects')->label('Imagine principală'),
+                Textarea::make('short_description')->label('Descriere scurtă')->rows(2)->maxLength(500),
+                FileUpload::make('featured_image')->image()->directory('projects')->label('Imagine principală'),
             ])->columns(2),
 
-            Forms\Components\Section::make('Conținut extins')->schema([
-                Forms\Components\Textarea::make('description')->label('Descriere completă')->rows(4)->columnSpanFull(),
-                Forms\Components\Textarea::make('problem')->label('Problemă')->rows(3),
-                Forms\Components\Textarea::make('solution')->label('Soluție')->rows(3),
-                Forms\Components\Textarea::make('objectives')->label('Obiective')->rows(3),
-                Forms\Components\Textarea::make('impact')->label('Impact')->rows(3),
+            Section::make('Conținut extins')->schema([
+                Textarea::make('description')->label('Descriere completă')->rows(4)->columnSpanFull(),
+                Textarea::make('problem')->label('Problemă')->rows(3),
+                Textarea::make('solution')->label('Soluție')->rows(3),
+                Textarea::make('objectives')->label('Obiective')->rows(3),
+                Textarea::make('impact')->label('Impact')->rows(3),
             ])->columns(2)->collapsible(),
 
-            Forms\Components\Section::make('Stare și publicare')->schema([
-                Forms\Components\Select::make('status')->label('Stare')
+            Section::make('Stare și publicare')->schema([
+                Select::make('status')->label('Stare')
                     ->options(Project::STATUSES)->default('draft')->required(),
-                Forms\Components\DateTimePicker::make('published_at')->label('Publicat la'),
-                Forms\Components\DatePicker::make('start_date')->label('Dată început'),
-                Forms\Components\DatePicker::make('end_date')->label('Dată sfârșit'),
-                Forms\Components\TextInput::make('location')->label('Locație'),
-                Forms\Components\TextInput::make('county')->label('Județ'),
-                Forms\Components\Toggle::make('featured')->label('Recomandat'),
+                DateTimePicker::make('published_at')->label('Publicat la'),
+                DatePicker::make('start_date')->label('Dată început'),
+                DatePicker::make('end_date')->label('Dată sfârșit'),
+                TextInput::make('location')->label('Locație'),
+                TextInput::make('county')->label('Județ'),
+                Toggle::make('featured')->label('Recomandat'),
             ])->columns(2),
 
-            Forms\Components\Section::make('Relații')->schema([
-                Forms\Components\Select::make('partners')->multiple()->relationship('partners', 'name')->preload()->label('Organizații partenere'),
-                Forms\Components\Select::make('educators')->multiple()->relationship('educators', 'first_name')->preload()->label('Educatori'),
-                Forms\Components\Select::make('beneficiaries')->multiple()->relationship('beneficiaries', 'name')->preload()->label('Beneficiari'),
+            Section::make('Relații')->schema([
+                Select::make('partners')->multiple()->relationship('partners', 'name')->preload()->label('Organizații partenere'),
+                Select::make('educators')->multiple()->relationship('educators', 'first_name')->preload()->label('Educatori'),
+                Select::make('beneficiaries')->multiple()->relationship('beneficiaries', 'name')->preload()->label('Beneficiari'),
             ])->collapsed(),
 
-            Forms\Components\Section::make('SEO')->schema([
-                Forms\Components\TextInput::make('seo_title')->maxLength(255),
-                Forms\Components\Textarea::make('seo_description')->rows(2)->maxLength(500),
+            Section::make('SEO')->schema([
+                TextInput::make('seo_title')->maxLength(255),
+                Textarea::make('seo_description')->rows(2)->maxLength(500),
             ])->collapsed(),
         ]);
     }
@@ -74,34 +91,34 @@ class ProjectResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('featured_image')->label('')->height(48),
-                Tables\Columns\TextColumn::make('title')->searchable()->sortable()->limit(50),
-                Tables\Columns\TextColumn::make('category.name')->label('Categorie')->badge()->sortable(),
-                Tables\Columns\TextColumn::make('status')->badge()->sortable()
+                ImageColumn::make('featured_image')->label('')->height(48),
+                TextColumn::make('title')->searchable()->sortable()->limit(50),
+                TextColumn::make('category.name')->label('Categorie')->badge()->sortable(),
+                TextColumn::make('status')->badge()->sortable()
                     ->color(fn (string $state) => match ($state) {
                         'active' => 'success', 'upcoming' => 'warning',
                         'completed' => 'primary', 'archived' => 'gray', default => 'gray'
                     }),
-                Tables\Columns\TextColumn::make('location')->toggleable(),
-                Tables\Columns\IconColumn::make('featured')->boolean(),
-                Tables\Columns\TextColumn::make('published_at')->dateTime()->sortable(),
+                TextColumn::make('location')->toggleable(),
+                IconColumn::make('featured')->boolean(),
+                TextColumn::make('published_at')->dateTime()->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')->options(Project::STATUSES),
-                Tables\Filters\SelectFilter::make('project_category_id')->label('Categorie')->relationship('category', 'name'),
-                Tables\Filters\TernaryFilter::make('featured'),
+                SelectFilter::make('status')->options(Project::STATUSES),
+                SelectFilter::make('project_category_id')->label('Categorie')->relationship('category', 'name'),
+                TernaryFilter::make('featured'),
             ])
-            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()])
-            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])])
+            ->recordActions([EditAction::make(), DeleteAction::make()])
+            ->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])])
             ->defaultSort('published_at', 'desc');
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProjects::route('/'),
-            'create' => Pages\CreateProject::route('/create'),
-            'edit' => Pages\EditProject::route('/{record}/edit'),
+            'index' => ListProjects::route('/'),
+            'create' => CreateProject::route('/create'),
+            'edit' => EditProject::route('/{record}/edit'),
         ];
     }
 }
