@@ -8,15 +8,25 @@ use Livewire\Component;
 class BeneficiaryRequestForm extends Component
 {
     public string $requester_name = '';
+
     public string $email = '';
+
     public string $phone = '';
+
     public string $beneficiary_type = 'school';
+
     public string $educational_need = '';
+
     public string $target_audience = '';
+
     public string $location = '';
+
     public int $estimated_beneficiaries = 0;
+
     public string $requested_support = '';
+
     public string $urgency = 'normal';
+
     public bool $sent = false;
 
     protected array $rules = [

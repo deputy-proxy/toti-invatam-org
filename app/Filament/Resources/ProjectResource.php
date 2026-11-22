@@ -9,14 +9,20 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
     protected static ?string $navigationGroup = 'Conținut';
+
     protected static ?string $modelLabel = 'Proiect';
+
     protected static ?string $pluralModelLabel = 'Proiecte';
+
     protected static ?int $navigationSort = 10;
 
     public static function form(Form $form): Form
@@ -24,7 +30,7 @@ class ProjectResource extends Resource
         return $form->schema([
             Forms\Components\Section::make('Informații principale')->schema([
                 Forms\Components\TextInput::make('title')->label('Titlu')->required()->maxLength(255)->live(onBlur: true)
-                    ->afterStateUpdated(fn ($state, $set) => $set('slug', \Illuminate\Support\Str::slug($state))),
+                    ->afterStateUpdated(fn ($state, $set) => $set('slug', Str::slug($state))),
                 Forms\Components\TextInput::make('slug')->required()->maxLength(255)->unique(ignoreRecord: true),
                 Forms\Components\Select::make('project_category_id')->label('Categorie')
                     ->relationship('category', 'name')->searchable()->preload(),

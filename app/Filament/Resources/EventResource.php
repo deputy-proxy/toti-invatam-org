@@ -9,21 +9,26 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class EventResource extends Resource
 {
     protected static ?string $model = Event::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-calendar';
+
     protected static ?string $navigationGroup = 'Conținut';
+
     protected static ?string $modelLabel = 'Eveniment';
+
     protected static ?string $pluralModelLabel = 'Evenimente';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('title')->required()->live(onBlur:true)
-                ->afterStateUpdated(fn($s,$set)=>$set('slug',\Illuminate\Support\Str::slug($s))),
-            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord:true),
+            Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
+                ->afterStateUpdated(fn ($s, $set) => $set('slug', Str::slug($s))),
+            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
             Forms\Components\FileUpload::make('featured_image')->image()->directory('events'),
             Forms\Components\Textarea::make('description')->rows(3)->columnSpanFull(),
             Forms\Components\TextInput::make('location'),
@@ -46,7 +51,7 @@ class EventResource extends Resource
             Tables\Columns\IconColumn::make('online')->boolean(),
             Tables\Columns\IconColumn::make('active')->boolean(),
         ])->defaultSort('start_at')
-          ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
     }
 
     public static function getPages(): array

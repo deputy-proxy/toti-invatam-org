@@ -11,9 +11,12 @@ class EducationalNeed extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title','description','beneficiary_id','subject','target_age','location',
-        'urgency','estimated_beneficiaries','required_skills','required_resources','status',
+        'title', 'description', 'beneficiary_id', 'subject', 'target_age', 'location',
+        'urgency', 'estimated_beneficiaries', 'required_skills', 'required_resources', 'status',
     ];
 
-    public function beneficiary(): BelongsTo { return $this->belongsTo(Beneficiary::class); }
+    public function beneficiary(): BelongsTo
+    {
+        return $this->belongsTo(Beneficiary::class);
+    }
 }

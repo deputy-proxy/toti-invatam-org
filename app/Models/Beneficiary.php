@@ -12,8 +12,8 @@ class Beneficiary extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type','name','description','contact_person','email','phone',
-        'city','county','address','needs','accessibility_barriers','active',
+        'type', 'name', 'description', 'contact_person', 'email', 'phone',
+        'city', 'county', 'address', 'needs', 'accessibility_barriers', 'active',
     ];
 
     protected $casts = ['active' => 'boolean'];
@@ -27,12 +27,15 @@ class Beneficiary extends Model
         'other' => 'Alta',
     ];
 
-    public function educationalNeeds(): HasMany { return $this->hasMany(EducationalNeed::class); }
+    public function educationalNeeds(): HasMany
+    {
+        return $this->hasMany(EducationalNeed::class);
+    }
 
     public function projects(): BelongsToMany
     {
         return $this->belongsToMany(Project::class, 'project_beneficiaries')
-            ->withPivot('number_of_beneficiaries','notes')
+            ->withPivot('number_of_beneficiaries', 'notes')
             ->withTimestamps();
     }
 }

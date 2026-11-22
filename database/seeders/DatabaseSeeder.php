@@ -52,7 +52,9 @@ class DatabaseSeeder extends Seeder
             ['seo_default_title', 'Împreună Învățăm — Conectăm cunoașterea cu cei care au nevoie', 'string', 'seo'],
             ['seo_default_description', 'Fundația care construiește punți între cei care pot oferi educație și cei care au nevoie de ea.', 'text', 'seo'],
         ];
-        foreach ($settings as [$k, $v, $t, $g]) SiteSetting::set($k, $v, $t, $g);
+        foreach ($settings as [$k, $v, $t, $g]) {
+            SiteSetting::set($k, $v, $t, $g);
+        }
 
         // -------- Impact metrics (homepage) --------
         $metrics = [
@@ -101,7 +103,7 @@ class DatabaseSeeder extends Seeder
             $org = Organization::updateOrCreate(
                 ['name' => $n],
                 ['slug' => Str::slug($n), 'type' => $t, 'website' => $w, 'country' => 'Romania', 'active' => true,
-                 'description' => "Organizație demo. $n este un exemplu de partener; datele sunt fictive și editabile din admin."]
+                    'description' => "Organizație demo. $n este un exemplu de partener; datele sunt fictive și editabile din admin."]
             );
             Partner::updateOrCreate(
                 ['organization_id' => $org->id],
@@ -125,11 +127,11 @@ class DatabaseSeeder extends Seeder
         // -------- Testimonials --------
         $testimonials = [
             ['Maria Popescu', 'Director Școală Gimnazială', null, 'beneficiar',
-             'Prin Împreună Învățăm, am găsit voluntari minunați care ajută pe elevii noștri să viseze mai măreț.'],
+                'Prin Împreună Învățăm, am găsit voluntari minunați care ajută pe elevii noștri să viseze mai măreț.'],
             ['Andrei Ionescu', 'Voluntar & Software Engineer', null, 'voluntar',
-             'Ca profesionist, am descoperit bucuria de a da mai departe cunoștințele mele și de a inspira viitorul.'],
+                'Ca profesionist, am descoperit bucuria de a da mai departe cunoștințele mele și de a inspira viitorul.'],
             ['Elena, 16 ani', 'Beneficiar', null, 'beneficiar',
-             'Datorită programelor, acum pot să învăț engleză și să îmi construiesc un viitor mai bun.'],
+                'Datorită programelor, acum pot să învăț engleză și să îmi construiesc un viitor mai bun.'],
         ];
         foreach ($testimonials as $idx => [$n, $r, $o, $c, $q]) {
             Testimonial::updateOrCreate(['name' => $n, 'quote' => $q],
@@ -185,7 +187,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // -------- Resources --------
-        $types = ['guide','worksheet','video','article','presentation'];
+        $types = ['guide', 'worksheet', 'video', 'article', 'presentation'];
         for ($i = 1; $i <= 10; $i++) {
             Resource::updateOrCreate(['title' => "Resursă educațională demo #$i"], [
                 'description' => "Descriere pentru resursa #$i — material demonstrativ pentru profesori și facilitatori.",

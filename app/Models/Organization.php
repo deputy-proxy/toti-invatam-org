@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
 class Organization extends Model
@@ -13,8 +14,8 @@ class Organization extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','slug','type','description','logo','website','email','phone',
-        'address','city','county','country','active',
+        'name', 'slug', 'type', 'description', 'logo', 'website', 'email', 'phone',
+        'address', 'city', 'county', 'country', 'active',
     ];
 
     protected $casts = ['active' => 'boolean'];
@@ -38,12 +39,15 @@ class Organization extends Model
         });
     }
 
-    public function partner(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function partner(): HasOne
     {
         return $this->hasOne(Partner::class);
     }
 
-    public function people(): HasMany { return $this->hasMany(Person::class); }
+    public function people(): HasMany
+    {
+        return $this->hasMany(Person::class);
+    }
 
     public function projects(): BelongsToMany
     {

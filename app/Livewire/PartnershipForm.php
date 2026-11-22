@@ -8,13 +8,21 @@ use Livewire\Component;
 class PartnershipForm extends Component
 {
     public string $organisation_name = '';
+
     public string $contact_name = '';
+
     public string $email = '';
+
     public string $phone = '';
+
     public string $website = '';
+
     public string $organisation_type = '';
+
     public string $partnership_type = '';
+
     public string $message = '';
+
     public bool $sent = false;
 
     protected array $rules = [

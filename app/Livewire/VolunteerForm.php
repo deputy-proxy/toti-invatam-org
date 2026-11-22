@@ -11,13 +11,21 @@ class VolunteerForm extends Component
     use WithFileUploads;
 
     public string $name = '';
+
     public string $email = '';
+
     public string $phone = '';
+
     public string $profession = '';
+
     public string $skills = '';
+
     public string $motivation = '';
+
     public string $availability = '';
+
     public $cv = null;
+
     public bool $sent = false;
 
     protected array $rules = [
@@ -49,7 +57,7 @@ class VolunteerForm extends Component
             'status' => 'pending',
         ]);
 
-        $this->reset(['name','email','phone','profession','skills','motivation','availability','cv']);
+        $this->reset(['name', 'email', 'phone', 'profession', 'skills', 'motivation', 'availability', 'cv']);
         $this->sent = true;
     }
 

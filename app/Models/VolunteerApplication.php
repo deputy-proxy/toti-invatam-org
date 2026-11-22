@@ -10,8 +10,8 @@ class VolunteerApplication extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','email','phone','profession','skills','motivation','availability',
-        'preferred_activities','cv_path','status','admin_notes',
+        'name', 'email', 'phone', 'profession', 'skills', 'motivation', 'availability',
+        'preferred_activities', 'cv_path', 'status', 'admin_notes',
     ];
 
     protected $casts = [

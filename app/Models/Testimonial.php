@@ -11,8 +11,8 @@ class Testimonial extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','role','organisation','category','quote','photo',
-        'project_id','featured','active','display_order',
+        'name', 'role', 'organisation', 'category', 'quote', 'photo',
+        'project_id', 'featured', 'active', 'display_order',
     ];
 
     protected $casts = ['featured' => 'boolean', 'active' => 'boolean'];
@@ -24,9 +24,23 @@ class Testimonial extends Model
         'partener' => 'Partener',
     ];
 
-    public function project(): BelongsTo { return $this->belongsTo(Project::class); }
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
 
-    public function scopeActive($q) { return $q->where('active', true); }
-    public function scopeFeatured($q) { return $q->where('featured', true); }
-    public function scopeOrdered($q) { return $q->orderBy('display_order')->orderBy('id'); }
+    public function scopeActive($q)
+    {
+        return $q->where('active', true);
+    }
+
+    public function scopeFeatured($q)
+    {
+        return $q->where('featured', true);
+    }
+
+    public function scopeOrdered($q)
+    {
+        return $q->orderBy('display_order')->orderBy('id');
+    }
 }

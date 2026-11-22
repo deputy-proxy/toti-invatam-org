@@ -13,14 +13,18 @@ use Filament\Tables\Table;
 class PartnershipInquiryResource extends Resource
 {
     protected static ?string $model = PartnershipInquiry::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
+
     protected static ?string $navigationGroup = 'Cereri & Submisii';
+
     protected static ?string $modelLabel = 'Cerere parteneriat';
+
     protected static ?string $pluralModelLabel = 'Cereri parteneriat';
 
     public static function getNavigationBadge(): ?string
     {
-        return (string) static::getModel()::where('status','new')->count() ?: null;
+        return (string) static::getModel()::where('status', 'new')->count() ?: null;
     }
 
     public static function form(Form $form): Form
@@ -35,8 +39,8 @@ class PartnershipInquiryResource extends Resource
             Forms\Components\TextInput::make('partnership_type'),
             Forms\Components\Textarea::make('message')->required()->columnSpanFull(),
             Forms\Components\Select::make('status')->options([
-                'new'=>'Nou','contacted'=>'Contactat','negotiating'=>'În discuție',
-                'accepted'=>'Acceptat','rejected'=>'Respins','completed'=>'Finalizat',
+                'new' => 'Nou', 'contacted' => 'Contactat', 'negotiating' => 'În discuție',
+                'accepted' => 'Acceptat', 'rejected' => 'Respins', 'completed' => 'Finalizat',
             ])->required(),
             Forms\Components\Textarea::make('admin_notes')->rows(3)->columnSpanFull(),
         ])->columns(2);
@@ -50,8 +54,8 @@ class PartnershipInquiryResource extends Resource
             Tables\Columns\TextColumn::make('email'),
             Tables\Columns\TextColumn::make('status')->badge(),
             Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
-        ])->defaultSort('created_at','desc')
-          ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+        ])->defaultSort('created_at', 'desc')
+            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
     }
 
     public static function getPages(): array

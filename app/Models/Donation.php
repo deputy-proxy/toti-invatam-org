@@ -11,8 +11,8 @@ class Donation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'donor_name','donor_email','amount','currency','type','recurring',
-        'project_id','payment_provider','payment_reference','status','metadata','donated_at',
+        'donor_name', 'donor_email', 'amount', 'currency', 'type', 'recurring',
+        'project_id', 'payment_provider', 'payment_reference', 'status', 'metadata', 'donated_at',
     ];
 
     protected $casts = [
@@ -22,5 +22,8 @@ class Donation extends Model
         'donated_at' => 'datetime',
     ];
 
-    public function project(): BelongsTo { return $this->belongsTo(Project::class); }
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

@@ -13,15 +13,19 @@ use Filament\Tables\Table;
 class PartnerResource extends Resource
 {
     protected static ?string $model = Partner::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
     protected static ?string $navigationGroup = 'Ecosistem';
+
     protected static ?string $modelLabel = 'Partener';
+
     protected static ?string $pluralModelLabel = 'Parteneri';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Select::make('organization_id')->relationship('organization','name')->searchable()->required(),
+            Forms\Components\Select::make('organization_id')->relationship('organization', 'name')->searchable()->required(),
             Forms\Components\TextInput::make('partner_type')->default('strategic'),
             Forms\Components\TextInput::make('contribution_type'),
             Forms\Components\DatePicker::make('start_date'),
@@ -42,7 +46,7 @@ class PartnerResource extends Resource
             Tables\Columns\IconColumn::make('active')->boolean(),
             Tables\Columns\TextColumn::make('display_order')->sortable(),
         ])->reorderable('display_order')->defaultSort('display_order')
-          ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
     }
 
     public static function getPages(): array

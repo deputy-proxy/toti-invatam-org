@@ -11,8 +11,8 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title','slug','description','featured_image','location','online','event_url',
-        'start_at','end_at','capacity','registration_required','active',
+        'title', 'slug', 'description', 'featured_image', 'location', 'online', 'event_url',
+        'start_at', 'end_at', 'capacity', 'registration_required', 'active',
     ];
 
     protected $casts = [
@@ -26,9 +26,14 @@ class Event extends Model
     protected static function booted(): void
     {
         static::creating(function ($m) {
-            if (empty($m->slug)) $m->slug = Str::slug($m->title).'-'.Str::lower(Str::random(4));
+            if (empty($m->slug)) {
+                $m->slug = Str::slug($m->title).'-'.Str::lower(Str::random(4));
+            }
         });
     }
 
-    public function getRouteKeyName(): string { return 'slug'; }
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

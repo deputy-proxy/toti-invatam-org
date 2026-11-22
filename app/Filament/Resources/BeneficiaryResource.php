@@ -13,9 +13,13 @@ use Filament\Tables\Table;
 class BeneficiaryResource extends Resource
 {
     protected static ?string $model = Beneficiary::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-heart';
+
     protected static ?string $navigationGroup = 'Ecosistem';
+
     protected static ?string $modelLabel = 'Beneficiar';
+
     protected static ?string $pluralModelLabel = 'Beneficiari';
 
     public static function form(Form $form): Form
@@ -41,7 +45,7 @@ class BeneficiaryResource extends Resource
         return $table->columns([
             Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
             Tables\Columns\TextColumn::make('type')->badge()
-            ->formatStateUsing(fn (string $state): string => Beneficiary::TYPES[$state] ?? $state),
+                ->formatStateUsing(fn (string $state): string => Beneficiary::TYPES[$state] ?? $state),
             Tables\Columns\TextColumn::make('city'),
             Tables\Columns\IconColumn::make('active')->boolean(),
         ])->filters([

@@ -13,14 +13,18 @@ use Filament\Tables\Table;
 class BeneficiaryRequestResource extends Resource
 {
     protected static ?string $model = BeneficiaryRequest::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-lifebuoy';
+
     protected static ?string $navigationGroup = 'Cereri & Submisii';
+
     protected static ?string $modelLabel = 'Cerere sprijin';
+
     protected static ?string $pluralModelLabel = 'Cereri sprijin';
 
     public static function getNavigationBadge(): ?string
     {
-        return (string) static::getModel()::where('status','new')->count() ?: null;
+        return (string) static::getModel()::where('status', 'new')->count() ?: null;
     }
 
     public static function form(Form $form): Form
@@ -35,10 +39,10 @@ class BeneficiaryRequestResource extends Resource
             Forms\Components\TextInput::make('location'),
             Forms\Components\TextInput::make('estimated_beneficiaries')->numeric(),
             Forms\Components\Textarea::make('requested_support')->columnSpanFull(),
-            Forms\Components\Select::make('urgency')->options(['low'=>'Scăzută','normal'=>'Normală','high'=>'Ridicată','critical'=>'Critică'])->default('normal'),
+            Forms\Components\Select::make('urgency')->options(['low' => 'Scăzută', 'normal' => 'Normală', 'high' => 'Ridicată', 'critical' => 'Critică'])->default('normal'),
             Forms\Components\Select::make('status')->options([
-                'new'=>'Nou','contacted'=>'Contactat','in_progress'=>'În lucru',
-                'matched'=>'Potrivit','fulfilled'=>'Îndeplinit','rejected'=>'Respins',
+                'new' => 'Nou', 'contacted' => 'Contactat', 'in_progress' => 'În lucru',
+                'matched' => 'Potrivit', 'fulfilled' => 'Îndeplinit', 'rejected' => 'Respins',
             ])->default('new'),
             Forms\Components\Textarea::make('admin_notes')->rows(3)->columnSpanFull(),
         ])->columns(2);
@@ -50,13 +54,13 @@ class BeneficiaryRequestResource extends Resource
             Tables\Columns\TextColumn::make('requester_name')->searchable(),
             Tables\Columns\TextColumn::make('email'),
             Tables\Columns\TextColumn::make('beneficiary_type')->badge(),
-            Tables\Columns\TextColumn::make('urgency')->badge()->color(fn($s)=>match($s){
-                'critical'=>'danger','high'=>'warning','normal'=>'primary',default=>'gray'
+            Tables\Columns\TextColumn::make('urgency')->badge()->color(fn ($s) => match ($s) {
+                'critical' => 'danger','high' => 'warning','normal' => 'primary',default => 'gray'
             }),
             Tables\Columns\TextColumn::make('status')->badge(),
             Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
-        ])->defaultSort('created_at','desc')
-          ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+        ])->defaultSort('created_at', 'desc')
+            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
     }
 
     public static function getPages(): array

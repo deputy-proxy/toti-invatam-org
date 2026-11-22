@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Hash;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+
     protected static ?string $navigationGroup = 'Setări';
+
     protected static ?string $modelLabel = 'Utilizator';
+
     protected static ?string $pluralModelLabel = 'Utilizatori';
 
     public static function form(Form $form): Form
@@ -25,12 +29,12 @@ class UserResource extends Resource
             Forms\Components\TextInput::make('name')->required(),
             Forms\Components\TextInput::make('email')->email()->required()->unique(ignoreRecord: true),
             Forms\Components\Select::make('role')->options([
-                'admin'=>'Administrator','editor'=>'Editor','coordinator'=>'Coordonator',
+                'admin' => 'Administrator', 'editor' => 'Editor', 'coordinator' => 'Coordonator',
             ])->required(),
             Forms\Components\TextInput::make('password')->password()
-            ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
-            ->dehydrated(fn (?string $state): bool => filled($state))
-            ->required(fn (string $operation): bool => $operation === 'create'),
+                ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                ->dehydrated(fn (?string $state): bool => filled($state))
+                ->required(fn (string $operation): bool => $operation === 'create'),
             Forms\Components\Toggle::make('active')->default(true),
         ])->columns(2);
     }

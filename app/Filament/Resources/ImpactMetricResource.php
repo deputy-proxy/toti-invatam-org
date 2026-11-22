@@ -13,15 +13,19 @@ use Filament\Tables\Table;
 class ImpactMetricResource extends Resource
 {
     protected static ?string $model = ImpactMetric::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar-square';
+
     protected static ?string $navigationGroup = 'Conținut';
+
     protected static ?string $modelLabel = 'Metrică de impact';
+
     protected static ?string $pluralModelLabel = 'Metrici de impact';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Select::make('project_id')->relationship('project','title')->searchable()->label('Proiect (opțional)'),
+            Forms\Components\Select::make('project_id')->relationship('project', 'title')->searchable()->label('Proiect (opțional)'),
             Forms\Components\TextInput::make('title')->required()->helperText('Ex: Beneficiari conectați'),
             Forms\Components\TextInput::make('numeric_value')->required()->helperText('Ex: 5.000'),
             Forms\Components\TextInput::make('suffix')->maxLength(20)->helperText('Ex: +, %'),
@@ -43,7 +47,7 @@ class ImpactMetricResource extends Resource
             Tables\Columns\IconColumn::make('active')->boolean(),
             Tables\Columns\TextColumn::make('display_order')->sortable(),
         ])->reorderable('display_order')->defaultSort('display_order')
-          ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
     }
 
     public static function getPages(): array

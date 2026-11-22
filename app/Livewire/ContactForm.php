@@ -3,16 +3,20 @@
 namespace App\Livewire;
 
 use App\Models\ContactMessage;
-use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class ContactForm extends Component
 {
     public string $name = '';
+
     public string $email = '';
+
     public string $phone = '';
+
     public string $subject = '';
+
     public string $message = '';
+
     public bool $sent = false;
 
     protected array $rules = [
@@ -36,7 +40,7 @@ class ContactForm extends Component
             'status' => 'new',
         ]);
 
-        $this->reset(['name','email','phone','subject','message']);
+        $this->reset(['name', 'email', 'phone', 'subject', 'message']);
         $this->sent = true;
     }
 

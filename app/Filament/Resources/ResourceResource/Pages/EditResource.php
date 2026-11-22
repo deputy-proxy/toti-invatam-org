@@ -1,6 +1,17 @@
 <?php
+
 namespace App\Filament\Resources\ResourceResource\Pages;
+
 use App\Filament\Resources\ResourceResource;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
-class EditResource extends EditRecord { protected static string $resource = ResourceResource::class;
-    protected function getHeaderActions(): array { return [\Filament\Actions\DeleteAction::make()]; } }
+
+class EditResource extends EditRecord
+{
+    protected static string $resource = ResourceResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [DeleteAction::make()];
+    }
+}

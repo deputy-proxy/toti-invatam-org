@@ -20,9 +20,9 @@ class PaymentService
     public function initiate(Donation $donation): array
     {
         return match ($this->provider) {
-            'stripe'  => $this->initiateStripe($donation),
+            'stripe' => $this->initiateStripe($donation),
             'netopia' => $this->initiateNetopia($donation),
-            default   => $this->initiateNull($donation),
+            default => $this->initiateNull($donation),
         };
     }
 
@@ -34,6 +34,7 @@ class PaymentService
             'payment_reference' => 'MANUAL-'.strtoupper(bin2hex(random_bytes(4))),
             'status' => 'pending',
         ]);
+
         return ['redirect_url' => null, 'provider_reference' => $donation->payment_reference, 'status' => 'pending'];
     }
 
@@ -41,12 +42,14 @@ class PaymentService
     {
         // Placeholder: real Stripe Checkout Session creation would go here.
         $donation->update(['payment_provider' => 'stripe', 'status' => 'pending']);
+
         return ['redirect_url' => null, 'provider_reference' => null, 'status' => 'pending'];
     }
 
     protected function initiateNetopia(Donation $donation): array
     {
         $donation->update(['payment_provider' => 'netopia', 'status' => 'pending']);
+
         return ['redirect_url' => null, 'provider_reference' => null, 'status' => 'pending'];
     }
 }
