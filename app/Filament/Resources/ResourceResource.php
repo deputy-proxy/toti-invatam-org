@@ -2,12 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ResourceResource\Pages;
+use App\Filament\Resources\ResourceResource\Pages\CreateResource;
+use App\Filament\Resources\ResourceResource\Pages\EditResource;
+use App\Filament\Resources\ResourceResource\Pages\ListResources;
 use App\Models\Resource as ResourceModel;
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -15,55 +25,55 @@ class ResourceResource extends Resource
 {
     protected static ?string $model = ResourceModel::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Conținut';
+    protected static string|\UnitEnum|null $navigationGroup = 'Conținut';
 
     protected static ?string $modelLabel = 'Resursă';
 
     protected static ?string $pluralModelLabel = 'Resurse';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
-            Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
+        return $schema->components([
+            TextInput::make('title')->required()->live(onBlur: true)
                 ->afterStateUpdated(fn ($s, $set) => $set('slug', Str::slug($s))),
-            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
-            Forms\Components\Select::make('resource_type')->options([
+            TextInput::make('slug')->required()->unique(ignoreRecord: true),
+            Select::make('resource_type')->options([
                 'article' => 'Articol', 'guide' => 'Ghid', 'worksheet' => 'Fișă', 'video' => 'Video',
                 'presentation' => 'Prezentare', 'external_resource' => 'Resursă externă', 'other' => 'Altele',
             ])->required(),
-            Forms\Components\TextInput::make('audience'),
-            Forms\Components\TextInput::make('category'),
-            Forms\Components\TextInput::make('author'),
-            Forms\Components\Textarea::make('description')->rows(3)->columnSpanFull(),
-            Forms\Components\Textarea::make('content')->rows(6)->columnSpanFull(),
-            Forms\Components\FileUpload::make('file_path')->directory('resources')->label('Fișier'),
-            Forms\Components\TextInput::make('external_url')->url(),
-            Forms\Components\FileUpload::make('featured_image')->image()->directory('resources'),
-            Forms\Components\DateTimePicker::make('published_at')->default(now()),
-            Forms\Components\Toggle::make('active')->default(true),
+            TextInput::make('audience'),
+            TextInput::make('category'),
+            TextInput::make('author'),
+            Textarea::make('description')->rows(3)->columnSpanFull(),
+            Textarea::make('content')->rows(6)->columnSpanFull(),
+            FileUpload::make('file_path')->directory('resources')->label('Fișier'),
+            TextInput::make('external_url')->url(),
+            FileUpload::make('featured_image')->image()->directory('resources'),
+            DateTimePicker::make('published_at')->default(now()),
+            Toggle::make('active')->default(true),
         ])->columns(2);
     }
 
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\TextColumn::make('title')->searchable()->limit(40),
-            Tables\Columns\TextColumn::make('resource_type')->badge(),
-            Tables\Columns\TextColumn::make('audience'),
-            Tables\Columns\TextColumn::make('published_at')->date()->sortable(),
-            Tables\Columns\IconColumn::make('active')->boolean(),
+            TextColumn::make('title')->searchable()->limit(40),
+            TextColumn::make('resource_type')->badge(),
+            TextColumn::make('audience'),
+            TextColumn::make('published_at')->date()->sortable(),
+            IconColumn::make('active')->boolean(),
         ])->defaultSort('published_at', 'desc')
-            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+            ->recordActions([EditAction::make(), DeleteAction::make()]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListResources::route('/'),
-            'create' => Pages\CreateResource::route('/create'),
-            'edit' => Pages\EditResource::route('/{record}/edit'),
+            'index' => ListResources::route('/'),
+            'create' => CreateResource::route('/create'),
+            'edit' => EditResource::route('/{record}/edit'),
         ];
     }
 }

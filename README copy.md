@@ -1,15 +1,15 @@
 # Împreună Învățăm — Foundation Platform
 
-Platformă Laravel 11 pentru fundația **Împreună Învățăm** (impreuna.invatam.org).
-Combină un website public modern cu un panou CMS complet construit pe **Filament v3**.
+Platformă Laravel 13 pentru fundația **Împreună Învățăm** (impreuna.invatam.org).
+Combină un website public modern cu un panou CMS complet construit pe **Filament v5**.
 
-**Stack:** Laravel 11 · PHP 8.2+ · MySQL 8 · Blade · Livewire 3 · Alpine.js · Tailwind 3 · Filament 3
+**Stack:** Laravel 13 · PHP 8.4+ · MySQL 8 · Blade · Livewire 4 · Alpine.js · Tailwind CSS 4 · Filament 5
 
 ---
 
 ## 🚀 Instalare rapidă
 
-Cerințe: `PHP 8.2+`, `Composer 2`, `Node 20+`, `MySQL 8` (sau MariaDB 10.11+).
+Cerințe: `PHP 8.4+`, `Composer 2`, `Node 22+`, `MySQL 8` (sau MariaDB 10.11+).
 
 ```bash
 # 1. Clonează / descarcă proiectul
@@ -17,7 +17,7 @@ cd laravel-app
 
 # 2. Instalează dependințele
 composer install
-yarn install     # sau npm install
+npm ci
 
 # 3. Configurare mediu
 cp .env.example .env
@@ -32,9 +32,9 @@ php artisan migrate --seed
 php artisan storage:link
 
 # 6. Compilează asset-urile
-yarn build       # sau npm run build
+npm run build
 # ...sau, pentru dev:
-yarn dev
+npm run dev
 
 # 7. Rulează serverul
 php artisan serve
@@ -137,7 +137,7 @@ Fluxul de donație (`DonationController::store`) e complet și rulează prin ace
 
 ## 📝 Formulare
 
-Toate formularele sunt **Livewire 3** cu validare Laravel + CSRF + persistență + stare success (fără JS custom):
+Toate formularele sunt **Livewire 4** cu validare Laravel + CSRF + persistență + stare success (fără JS custom):
 - `/contact` → `ContactForm`
 - `/voluntariat` → `VolunteerForm` (cu upload CV)
 - `/pentru-companii` → `PartnershipForm`
@@ -192,9 +192,9 @@ Accesează `/admin`. Panoul include:
 
 ### Recomandat: Laravel Forge / VPS
 1. Push pe GitHub.
-2. Configurează serverul (LEMP: Nginx + PHP 8.2-FPM + MySQL).
+2. Configurează serverul (LEMP: Nginx + PHP 8.4-FPM + MySQL).
 3. Rulează `composer install --no-dev --optimize-autoloader`.
-4. Rulează `yarn build`.
+4. Rulează `npm ci` și `npm run build`.
 5. Migrează: `php artisan migrate --force`.
 6. Cache: `php artisan config:cache route:cache view:cache filament:cache-components`.
 

@@ -2,12 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProjectCategoryResource\Pages;
+use App\Filament\Resources\ProjectCategoryResource\Pages\CreateProjectCategory;
+use App\Filament\Resources\ProjectCategoryResource\Pages\EditProjectCategory;
+use App\Filament\Resources\ProjectCategoryResource\Pages\ListProjectCategories;
 use App\Models\ProjectCategory;
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -15,43 +22,43 @@ class ProjectCategoryResource extends Resource
 {
     protected static ?string $model = ProjectCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-tag';
 
-    protected static ?string $navigationGroup = 'Conținut';
+    protected static string|\UnitEnum|null $navigationGroup = 'Conținut';
 
     protected static ?string $modelLabel = 'Categorie proiect';
 
     protected static ?string $pluralModelLabel = 'Categorii proiecte';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
-            Forms\Components\TextInput::make('name')->required()->live(onBlur: true)
+        return $schema->components([
+            TextInput::make('name')->required()->live(onBlur: true)
                 ->afterStateUpdated(fn ($s, $set) => $set('slug', Str::slug($s))),
-            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
-            Forms\Components\TextInput::make('icon'),
-            Forms\Components\TextInput::make('color')->default('brand'),
-            Forms\Components\Textarea::make('description')->rows(2)->columnSpanFull(),
-            Forms\Components\Toggle::make('active')->default(true),
+            TextInput::make('slug')->required()->unique(ignoreRecord: true),
+            TextInput::make('icon'),
+            TextInput::make('color')->default('brand'),
+            Textarea::make('description')->rows(2)->columnSpanFull(),
+            Toggle::make('active')->default(true),
         ])->columns(2);
     }
 
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\TextColumn::make('name')->searchable(),
-            Tables\Columns\TextColumn::make('slug'),
-            Tables\Columns\TextColumn::make('icon'),
-            Tables\Columns\IconColumn::make('active')->boolean(),
-        ])->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+            TextColumn::make('name')->searchable(),
+            TextColumn::make('slug'),
+            TextColumn::make('icon'),
+            IconColumn::make('active')->boolean(),
+        ])->recordActions([EditAction::make(), DeleteAction::make()]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProjectCategories::route('/'),
-            'create' => Pages\CreateProjectCategory::route('/create'),
-            'edit' => Pages\EditProjectCategory::route('/{record}/edit'),
+            'index' => ListProjectCategories::route('/'),
+            'create' => CreateProjectCategory::route('/create'),
+            'edit' => EditProjectCategory::route('/{record}/edit'),
         ];
     }
 }

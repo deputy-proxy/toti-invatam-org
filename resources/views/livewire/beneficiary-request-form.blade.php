@@ -6,7 +6,7 @@
             <p class="mt-2 text-ink-500">Un coordonator o va analiza și te va contacta în curând.</p>
         </div>
     @else
-        <form wire:submit.prevent="submit" class="grid grid-cols-1 md:grid-cols-2 gap-4" data-testid="beneficiary-request-form">
+        <form wire:submit="submit" class="grid grid-cols-1 md:grid-cols-2 gap-4" data-testid="beneficiary-request-form">
             <x-form-field label="Nume solicitant / organizație" name="requester_name" required wire:model.lazy="requester_name" />
             <x-form-field label="Email" name="email" type="email" required wire:model.lazy="email" />
             <x-form-field label="Telefon" name="phone" wire:model.lazy="phone" />

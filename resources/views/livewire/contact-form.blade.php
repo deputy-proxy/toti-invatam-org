@@ -7,7 +7,7 @@
             <button wire:click="$set('sent', false)" class="btn-ghost mt-6">Trimite alt mesaj</button>
         </div>
     @else
-        <form wire:submit.prevent="submit" class="grid grid-cols-1 md:grid-cols-2 gap-4" data-testid="contact-form">
+        <form wire:submit="submit" class="grid grid-cols-1 md:grid-cols-2 gap-4" data-testid="contact-form">
             <x-form-field label="Nume" name="name" required wire:model.lazy="name" />
             <x-form-field label="Email" name="email" type="email" required wire:model.lazy="email" />
             <x-form-field label="Telefon" name="phone" wire:model.lazy="phone" />
