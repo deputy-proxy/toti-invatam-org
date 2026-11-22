@@ -13,10 +13,15 @@ use Filament\Tables\Table;
 class OrganizationResource extends Resource
 {
     protected static ?string $model = Organization::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
+
     protected static ?string $navigationGroup = 'Ecosistem';
+
     protected static ?string $modelLabel = 'Organizație';
+
     protected static ?string $pluralModelLabel = 'Organizații';
+
     protected static ?int $navigationSort = 20;
 
     public static function form(Form $form): Form
@@ -45,7 +50,7 @@ class OrganizationResource extends Resource
             Tables\Columns\ImageColumn::make('logo')->label('')->height(40),
             Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
             Tables\Columns\TextColumn::make('type')->badge()
-            ->formatStateUsing(fn (string $state): string => Organization::TYPES[$state] ?? $state),
+                ->formatStateUsing(fn (string $state): string => Organization::TYPES[$state] ?? $state),
             Tables\Columns\TextColumn::make('city')->sortable(),
             Tables\Columns\IconColumn::make('active')->boolean(),
         ])->filters([

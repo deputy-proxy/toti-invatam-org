@@ -13,14 +13,18 @@ use Filament\Tables\Table;
 class ContactMessageResource extends Resource
 {
     protected static ?string $model = ContactMessage::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-envelope';
+
     protected static ?string $navigationGroup = 'Cereri & Submisii';
+
     protected static ?string $modelLabel = 'Mesaj contact';
+
     protected static ?string $pluralModelLabel = 'Mesaje contact';
 
     public static function getNavigationBadge(): ?string
     {
-        return (string) static::getModel()::where('status','new')->count() ?: null;
+        return (string) static::getModel()::where('status', 'new')->count() ?: null;
     }
 
     public static function form(Form $form): Form
@@ -31,7 +35,7 @@ class ContactMessageResource extends Resource
             Forms\Components\TextInput::make('phone'),
             Forms\Components\TextInput::make('subject'),
             Forms\Components\Textarea::make('message')->required()->columnSpanFull(),
-            Forms\Components\Select::make('status')->options(['new'=>'Nou','read'=>'Citit','replied'=>'Răspuns'])->default('new'),
+            Forms\Components\Select::make('status')->options(['new' => 'Nou', 'read' => 'Citit', 'replied' => 'Răspuns'])->default('new'),
         ])->columns(2);
     }
 
@@ -43,8 +47,8 @@ class ContactMessageResource extends Resource
             Tables\Columns\TextColumn::make('subject')->limit(40),
             Tables\Columns\TextColumn::make('status')->badge(),
             Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
-        ])->defaultSort('created_at','desc')
-          ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+        ])->defaultSort('created_at', 'desc')
+            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
     }
 
     public static function getPages(): array

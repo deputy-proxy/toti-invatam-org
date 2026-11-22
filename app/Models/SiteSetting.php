@@ -7,18 +7,21 @@ use Illuminate\Support\Facades\Cache;
 
 class SiteSetting extends Model
 {
-    protected $fillable = ['key','value','type','group','label','description'];
+    protected $fillable = ['key', 'value', 'type', 'group', 'label', 'description'];
 
     public static function get(string $key, mixed $default = null): mixed
     {
         return Cache::rememberForever("site_setting:$key", function () use ($key, $default) {
             $setting = static::where('key', $key)->first();
-            if (!$setting) return $default;
+            if (! $setting) {
+                return $default;
+            }
+
             return match ($setting->type) {
                 'boolean' => (bool) $setting->value,
-                'number'  => is_numeric($setting->value) ? $setting->value + 0 : $default,
-                'json'    => json_decode($setting->value, true) ?? $default,
-                default   => $setting->value ?? $default,
+                'number' => is_numeric($setting->value) ? $setting->value + 0 : $default,
+                'json' => json_decode($setting->value, true) ?? $default,
+                default => $setting->value ?? $default,
             };
         });
     }

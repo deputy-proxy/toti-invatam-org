@@ -11,8 +11,8 @@ class EducatorProfile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'person_id','educator_type','subjects','skills','experience',
-        'availability','preferred_age_groups','preferred_locations','online_available',
+        'person_id', 'educator_type', 'subjects', 'skills', 'experience',
+        'availability', 'preferred_age_groups', 'preferred_locations', 'online_available',
     ];
 
     protected $casts = [
@@ -23,5 +23,8 @@ class EducatorProfile extends Model
         'online_available' => 'boolean',
     ];
 
-    public function person(): BelongsTo { return $this->belongsTo(Person::class); }
+    public function person(): BelongsTo
+    {
+        return $this->belongsTo(Person::class);
+    }
 }

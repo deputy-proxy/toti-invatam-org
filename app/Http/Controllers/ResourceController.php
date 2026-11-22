@@ -14,12 +14,14 @@ class ResourceController extends Controller
             ->when($request->audience, fn ($q, $a) => $q->where('audience', $a))
             ->latest('published_at')
             ->paginate(12)->withQueryString();
+
         return view('pages.resources.index', compact('resources'));
     }
 
     public function show(Resource $resource)
     {
         abort_unless($resource->active, 404);
+
         return view('pages.resources.show', compact('resource'));
     }
 }

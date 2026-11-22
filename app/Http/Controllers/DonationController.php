@@ -11,7 +11,8 @@ class DonationController extends Controller
 {
     public function show(Request $request)
     {
-        $projects = Project::published()->orderBy('title')->get(['id','title']);
+        $projects = Project::published()->orderBy('title')->get(['id', 'title']);
+
         return view('pages.donate', [
             'projects' => $projects,
             'preselected' => $request->query('project'),
@@ -40,7 +41,7 @@ class DonationController extends Controller
 
         $result = $payments->initiate($donation);
 
-        if (!empty($result['redirect_url'])) {
+        if (! empty($result['redirect_url'])) {
             return redirect()->away($result['redirect_url']);
         }
 

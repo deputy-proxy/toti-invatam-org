@@ -10,8 +10,8 @@ class BeneficiaryRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'requester_name','email','phone','beneficiary_type','educational_need',
-        'target_audience','location','estimated_beneficiaries','requested_support',
-        'urgency','status','admin_notes',
+        'requester_name', 'email', 'phone', 'beneficiary_type', 'educational_need',
+        'target_audience', 'location', 'estimated_beneficiaries', 'requested_support',
+        'urgency', 'status', 'admin_notes',
     ];
 }

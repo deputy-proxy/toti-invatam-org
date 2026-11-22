@@ -13,9 +13,13 @@ use Filament\Tables\Table;
 class PersonResource extends Resource
 {
     protected static ?string $model = Person::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
     protected static ?string $navigationGroup = 'Ecosistem';
+
     protected static ?string $modelLabel = 'Persoană';
+
     protected static ?string $pluralModelLabel = 'Persoane';
 
     public static function form(Form $form): Form
@@ -26,7 +30,7 @@ class PersonResource extends Resource
             Forms\Components\TextInput::make('email')->email(),
             Forms\Components\TextInput::make('phone'),
             Forms\Components\TextInput::make('profession'),
-            Forms\Components\Select::make('organization_id')->relationship('organization','name')->searchable(),
+            Forms\Components\Select::make('organization_id')->relationship('organization', 'name')->searchable(),
             Forms\Components\TextInput::make('city'),
             Forms\Components\TextInput::make('county'),
             Forms\Components\Textarea::make('bio')->rows(3)->columnSpanFull(),
@@ -39,7 +43,7 @@ class PersonResource extends Resource
     {
         return $table->columns([
             Tables\Columns\ImageColumn::make('profile_photo')->circular(),
-            Tables\Columns\TextColumn::make('full_name')->label('Nume')->searchable(['first_name','last_name'])->sortable('last_name'),
+            Tables\Columns\TextColumn::make('full_name')->label('Nume')->searchable(['first_name', 'last_name'])->sortable(['last_name']),
             Tables\Columns\TextColumn::make('profession'),
             Tables\Columns\TextColumn::make('organization.name'),
             Tables\Columns\TextColumn::make('city'),

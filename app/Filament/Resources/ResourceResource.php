@@ -9,24 +9,29 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class ResourceResource extends Resource
 {
     protected static ?string $model = ResourceModel::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
     protected static ?string $navigationGroup = 'Conținut';
+
     protected static ?string $modelLabel = 'Resursă';
+
     protected static ?string $pluralModelLabel = 'Resurse';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('title')->required()->live(onBlur:true)
-                ->afterStateUpdated(fn($s,$set)=>$set('slug',\Illuminate\Support\Str::slug($s))),
-            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord:true),
+            Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
+                ->afterStateUpdated(fn ($s, $set) => $set('slug', Str::slug($s))),
+            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
             Forms\Components\Select::make('resource_type')->options([
-                'article'=>'Articol','guide'=>'Ghid','worksheet'=>'Fișă','video'=>'Video',
-                'presentation'=>'Prezentare','external_resource'=>'Resursă externă','other'=>'Altele',
+                'article' => 'Articol', 'guide' => 'Ghid', 'worksheet' => 'Fișă', 'video' => 'Video',
+                'presentation' => 'Prezentare', 'external_resource' => 'Resursă externă', 'other' => 'Altele',
             ])->required(),
             Forms\Components\TextInput::make('audience'),
             Forms\Components\TextInput::make('category'),
@@ -49,8 +54,8 @@ class ResourceResource extends Resource
             Tables\Columns\TextColumn::make('audience'),
             Tables\Columns\TextColumn::make('published_at')->date()->sortable(),
             Tables\Columns\IconColumn::make('active')->boolean(),
-        ])->defaultSort('published_at','desc')
-          ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+        ])->defaultSort('published_at', 'desc')
+            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
     }
 
     public static function getPages(): array

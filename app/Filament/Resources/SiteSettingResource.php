@@ -13,18 +13,22 @@ use Filament\Tables\Table;
 class SiteSettingResource extends Resource
 {
     protected static ?string $model = SiteSetting::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+
     protected static ?string $navigationGroup = 'Setări';
+
     protected static ?string $modelLabel = 'Setare';
+
     protected static ?string $pluralModelLabel = 'Setări site';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('key')->required()->unique(ignoreRecord:true),
+            Forms\Components\TextInput::make('key')->required()->unique(ignoreRecord: true),
             Forms\Components\TextInput::make('label'),
             Forms\Components\Select::make('type')->options([
-                'string'=>'Text scurt','text'=>'Text lung','number'=>'Număr','boolean'=>'Boolean','json'=>'JSON',
+                'string' => 'Text scurt', 'text' => 'Text lung', 'number' => 'Număr', 'boolean' => 'Boolean', 'json' => 'JSON',
             ])->default('string')->required(),
             Forms\Components\TextInput::make('group')->default('general'),
             Forms\Components\Textarea::make('value')->rows(4)->columnSpanFull(),
@@ -40,7 +44,7 @@ class SiteSettingResource extends Resource
             Tables\Columns\TextColumn::make('type')->badge(),
             Tables\Columns\TextColumn::make('value')->limit(60),
         ])->defaultGroup('group')->defaultSort('group')
-          ->actions([Tables\Actions\EditAction::make()]);
+            ->actions([Tables\Actions\EditAction::make()]);
     }
 
     public static function getPages(): array

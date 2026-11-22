@@ -9,6 +9,7 @@ class AnnualReport extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title','year','description','file_path','cover_image','published_at','active'];
+    protected $fillable = ['title', 'year', 'description', 'file_path', 'cover_image', 'published_at', 'active'];
+
     protected $casts = ['published_at' => 'datetime', 'active' => 'boolean'];
 }

@@ -19,16 +19,17 @@ class ProjectController extends Controller
 
         $categories = ProjectCategory::where('active', true)->orderBy('name')->get();
 
-        return view('pages.projects.index', compact('projects','categories'));
+        return view('pages.projects.index', compact('projects', 'categories'));
     }
 
     public function show(Project $project)
     {
-        abort_unless($project->published_at, 404);
-        $project->load(['category','partners','educators','beneficiaries','impactMetrics']);
+        abort_unless($project->published_at !== null, 404);
+        $project->load(['category', 'partners', 'educators', 'beneficiaries', 'impactMetrics']);
         $related = Project::published()->where('id', '!=', $project->id)
             ->where('project_category_id', $project->project_category_id)
             ->take(3)->get();
-        return view('pages.projects.show', compact('project','related'));
+
+        return view('pages.projects.show', compact('project', 'related'));
     }
 }

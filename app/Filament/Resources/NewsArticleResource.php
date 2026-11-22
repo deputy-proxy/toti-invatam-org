@@ -9,21 +9,26 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class NewsArticleResource extends Resource
 {
     protected static ?string $model = NewsArticle::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+
     protected static ?string $navigationGroup = 'Conținut';
+
     protected static ?string $modelLabel = 'Articol';
+
     protected static ?string $pluralModelLabel = 'Noutăți';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('title')->required()->live(onBlur:true)
-                ->afterStateUpdated(fn($s,$set)=>$set('slug',\Illuminate\Support\Str::slug($s))),
-            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord:true),
+            Forms\Components\TextInput::make('title')->required()->live(onBlur: true)
+                ->afterStateUpdated(fn ($s, $set) => $set('slug', Str::slug($s))),
+            Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true),
             Forms\Components\FileUpload::make('featured_image')->image()->directory('news'),
             Forms\Components\TextInput::make('author'),
             Forms\Components\TextInput::make('category'),
@@ -44,8 +49,8 @@ class NewsArticleResource extends Resource
             Tables\Columns\TextColumn::make('published_at')->dateTime()->sortable(),
             Tables\Columns\IconColumn::make('featured')->boolean(),
             Tables\Columns\IconColumn::make('active')->boolean(),
-        ])->defaultSort('published_at','desc')
-          ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+        ])->defaultSort('published_at', 'desc')
+            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
     }
 
     public static function getPages(): array

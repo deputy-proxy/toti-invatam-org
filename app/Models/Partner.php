@@ -11,8 +11,8 @@ class Partner extends Model
     use HasFactory;
 
     protected $fillable = [
-        'organization_id','partner_type','partnership_description','contribution_type',
-        'start_date','active','featured','display_order',
+        'organization_id', 'partner_type', 'partnership_description', 'contribution_type',
+        'start_date', 'active', 'featured', 'display_order',
     ];
 
     protected $casts = [
@@ -21,8 +21,19 @@ class Partner extends Model
         'start_date' => 'date',
     ];
 
-    public function organization(): BelongsTo { return $this->belongsTo(Organization::class); }
+    /** @return BelongsTo<Organization, $this> */
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
+    }
 
-    public function scopeActive($q) { return $q->where('active', true); }
-    public function scopeFeatured($q) { return $q->where('featured', true); }
+    public function scopeActive($q)
+    {
+        return $q->where('active', true);
+    }
+
+    public function scopeFeatured($q)
+    {
+        return $q->where('featured', true);
+    }
 }
